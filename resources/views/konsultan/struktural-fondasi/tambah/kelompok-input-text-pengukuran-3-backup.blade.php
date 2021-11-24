@@ -1,0 +1,29 @@
+<div class="card border-secondary border">
+    <div class="card-body">
+
+        <div class="row mb-3">
+            <div class="col-3"></div>    
+
+            <div class="col-9">
+                <div class="form-check form-checkbox-success mb-2">
+                    <input type="checkbox" class="form-check-input" id="input_pengukuran_3_baris_baru" name="input_pengukuran_3_baris_baru" @if (old('input_pengukuran_3_baris_baru')) checked @endif>
+                    <label class="form-check-label" for="input_pengukuran_3_baris_baru">Jadikan input pengukuran 3 sebagai baris baru</label>
+                </div>
+            </div>    
+        </div>
+
+        <div class="row mb-3">
+            <label for="text_sebelum_input_pengukuran_3" class="col-3 col-form-label">Text Sebelum Input Pengukuran 3</label>
+            <div class="col-9">
+                <input type="text" class="form-control" id="text_sebelum_input_pengukuran_3" name="text_sebelum_input_pengukuran_3" placeholder="" value="{{ old('text_sebelum_input_pengukuran_3') }}" >
+                @error('text_sebelum_input_pengukuran_3')
+                    <div class="invalid-feedback">
+                    {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+
+    </div> <!-- end card-body-->
+</div> <!-- end card-->        
+    
