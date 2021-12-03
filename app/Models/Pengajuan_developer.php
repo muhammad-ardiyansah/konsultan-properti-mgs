@@ -53,7 +53,10 @@ class Pengajuan_developer extends Model implements Auditable
     }
 
     public function getBlokRumahAttribute() {
-        return  wordwrap('A1,A2,A3,A4,A5', 9, "\n", true);
+        // return  wordwrap('A1,A2,A3,A4,A5,A6,A7', 9, "\n", true);
+        return  wordwrap($this->attributes['blok_rumah'], 9, "\n", true);
+        // return strlen($this->attributes['blok_rumah']);
+        // return $this->attributes['blok_rumah'];
     }
 
     public function developer()
@@ -69,6 +72,11 @@ class Pengajuan_developer extends Model implements Auditable
     public function tlu_status_pengajuan_developer()
     {
         return $this->belongsTo(Tlu_status_pengajuan_developer::class, 'tlu_sts_peng_dev_id', 'id');
+    }
+
+    public function province_apersi()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code_apersi', 'code')->withDefault();
     }
 
 }

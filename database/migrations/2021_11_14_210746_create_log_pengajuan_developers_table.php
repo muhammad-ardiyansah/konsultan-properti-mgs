@@ -19,16 +19,17 @@ class CreateLogPengajuanDevelopersTable extends Migration
             $table->foreignId('developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('perumahan_developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->dateTime('timestamp', $precision = 0); 
-            $table->integer('tlu_sts_peng_dev_id');  
-            $table->text('keterangan')->nullable(); 
-            $table->boolean('pengajuan_ke_apersi')->nullable();
+            $table->text('catatan')->nullable();
+       
+            $table->integer('id_status_peng_dev');
+            $table->string('nama_status_peng_dev', 60);
+            $table->string('keterangan_status_peng_dev')->nullable();
+            $table->string('role_status_peng_dev', 60);
+
+            $table->boolean('pengajuan_ke_apersi')->default(false);;
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');        
             $table->timestamps();
 
-            $table->foreign('tlu_sts_peng_dev_id')
-            ->references('id')
-            ->on('tlu_status_pengajuan_developers')
-            ->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

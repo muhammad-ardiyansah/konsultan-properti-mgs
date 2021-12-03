@@ -102,6 +102,10 @@ Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth','Preven
     Route::get('kelompokInputAngkaKeterangan', [KomponenPemeriksaanRoleKonsultanController::class,'getKelompokInputAngkaKeterangan'])->name('konsultan.getKelompokInputAngkaKeterangan');
     Route::view('kelompokInputTextKeterangan', 'konsultan.template-komponen.tambah.kelompok-input-text-keterangan')->name('konsultan.getKelompokInputTextKeterangan');
     Route::get('kelompokInputCheckboxKeterangan', [KomponenPemeriksaanRoleKonsultanController::class,'getKelompokInputCheckboxKeterangan'])->name('konsultan.getKelompokInputCheckboxKeterangan');        
+
+    Route::post('setStatusPengajuan',[PengajuanRoleKonsultanController::class,'index'])->name('konsultan.setStatusPengajuan');
+    Route::post('editDataPengajuan',[PengajuanRoleKonsultanController::class,'index'])->name('konsultan.editDataPengajuan');
+
 });
 
 Route::group(['prefix'=>'dpd', 'middleware'=>['isDpd','auth','PreventBackHistory']], function(){
@@ -133,6 +137,9 @@ Route::group(['prefix'=>'developer', 'middleware'=>['isDeveloper','auth','Preven
     Route::post('simpanPerumahanDeveloper',[PerumahanDeveloperController::class,'simpan'])->name('developer.simpanPerumahanDeveloper');
     Route::get('getPerumahanDeveloperAdditionalInfo/{id}',[PerumahanDeveloperController::class,'getPerumahanDeveloperAdditionalInfo'])->name('developer.getPerumahanDeveloperAdditionalInfo');
     Route::get('getPerumahanDevelopers/{developer_id}',[DeveloperController::class,'getPerumahanDevelopers'])->name('developer.getPerumahanDevelopers');
+
+    Route::post('setStatusPengajuan',[PengajuanRoleDeveloperController::class,'index'])->name('developer.setStatusPengajuan');
+    Route::post('editDataPengajuan',[PengajuanRoleDeveloperController::class,'index'])->name('developer.editDataPengajuan');
 });
 
 Route::group(['prefix'=>'pengawas', 'middleware'=>['isPengawas','auth','PreventBackHistory']], function(){

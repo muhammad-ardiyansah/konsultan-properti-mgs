@@ -21,8 +21,8 @@ class CreateDevelopersTable extends Migration
             $table->char('province_code', 2);            
             $table->text('alamat');
             $table->string('no_hp', 30);
-            $table->bigInteger('created_by')->nullable();;
-            $table->bigInteger('updated_by')->nullable();;            
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();            
             $table->timestamps();            
             $table->foreign('province_code')
                 ->references('code')

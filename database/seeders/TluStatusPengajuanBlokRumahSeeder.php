@@ -17,36 +17,36 @@ class TluStatusPengajuanBlokRumahSeeder extends Seeder
         Tlu_status_pengajuan_blok_rumah::create([
             'id' => 21,
             'nama_status' => 'Ditolak',
-            'param' => 'dpd'
+            'role' => 'dpd'
         ]);
         
         Tlu_status_pengajuan_blok_rumah::create([
             'id' => 31,
             'nama_status' => 'Disetujui',
-            'param' => 'dpd'
+            'role' => 'dpd'
         ]);        
 
         Tlu_status_pengajuan_blok_rumah::create([
             'id' => 41,
             'nama_status' => 'Ditolak',
-            'param' => 'dpp'
+            'role' => 'dpp'
         ]);
 
         Tlu_status_pengajuan_blok_rumah::create([
             'id' => 51,
             'nama_status' => 'Disetujui',
-            'param' => 'dpp'
+            'role' => 'dpp'
         ]);
         Tlu_status_pengajuan_blok_rumah::create([
             'id' => 71,
             'nama_status' => 'Ditolak',
-            'param' => 'konsultan'
+            'role' => 'konsultan'
         ]);
 
         Tlu_status_pengajuan_blok_rumah::create([
             'id' => 81,
             'nama_status' => 'Disetujui',
-            'param' => 'konsultan'
+            'role' => 'konsultan'
         ]);        
     }
 }

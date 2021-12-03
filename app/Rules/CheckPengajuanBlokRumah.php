@@ -3,7 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Models\Pengajuan_developer;
+use App\Models\Pengajuan_developer_detail;
 
 class CheckPengajuanBlokRumah implements Rule
 {
@@ -36,10 +36,22 @@ class CheckPengajuanBlokRumah implements Rule
         //
         // echo "developerId : ".$this->developerId;die;
         // dd($this->ignoreId);
-
+        // var_dump($value);
+        // echo ($value);
+        // $arrValue[] = 'A1';
         $arrValue = explode(',', $value);
-        $chkPengajuanDeveloper = Pengajuan_developer::whereIn('blok_rumah', ['A1,A2,A3,A4,A5'])->get();
-        print_r($chkPengajuanDeveloper);die;
+        // print_r($arrValue);die;
+        $chkPengajuanDeveloper = Pengajuan_developer_detail::select('*')
+        ->where('developer_id', '=', $this->developerId)
+        ->where('perumahan_developer_id', '=', $this->perumahanDeveloperId)
+        ->whereIn('blok_rumah', $arrValue)
+        ->where('pengajuan_developer_id', '!=', $this->ignoreId)->get();
+        // echo $chkPengajuanDeveloper->count();
+        //print_r($chkPengajuanDeveloper);
+        // die;
+        if ($chkPengajuanDeveloper->count() == 0) {
+            return true;
+        }
 
     }
 
@@ -50,6 +62,7 @@ class CheckPengajuanBlokRumah implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        // return 'The validation error message.';
+        return 'sudah ada yang pernah diajukan untuk perumahan yang anda pilih ';
     }
 }

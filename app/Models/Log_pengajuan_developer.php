@@ -14,8 +14,11 @@ class Log_pengajuan_developer extends Model
         'developer_id', 
         'perumahan_developer_id', 
         'timestamp', 
-        'tlu_sts_peng_dev_id', 
-        'keterangan', 
+        'catatan',
+        'id_status_peng_dev', 
+        'nama_status_peng_dev',
+        'keterangan_status_peng_dev',
+        'role_status_peng_dev',
         'pengajuan_ke_apersi',
         'user_id'
     ];    

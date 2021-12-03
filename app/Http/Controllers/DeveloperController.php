@@ -14,6 +14,8 @@ use App\Models\Tlu_fungsi_bangunan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengajuan_developer;
+use App\Models\Pengajuan_developer_detail;
+use App\Models\Tlu_status_pengajuan_developer;
 use App\Models\Log_pengajuan_developer;
 use App\Rules\CheckPengajuanBlokRumah;
 
@@ -30,6 +32,7 @@ class DeveloperController extends Controller
 
         $user = User::find(Auth::id());
         $developer = $user->developers()->first();        
+        $provinces = Province::pluck('name', 'code');
 
         $pengajuanDevelopers = Pengajuan_developer::sortable()->select('*')
         ->where('pengajuan_developers.developer_id', '=', $developer->id)
@@ -39,7 +42,8 @@ class DeveloperController extends Controller
         // return $pengajuanDevelopers;
 
         return view('developer.list-pengajuan-developer', compact(
-            'pengajuanDevelopers'
+            'pengajuanDevelopers',
+            'provinces'
         ));
     }
 
@@ -132,7 +136,10 @@ class DeveloperController extends Controller
         $request->merge(['harga_jual_per_unit' => $hargaJualPerUnit]);
 
         $userId = Auth::id();
-        $tluStatusPengajuanDeveloper = 11;
+        $tluStatusPengajuanDeveloper = Tlu_status_pengajuan_developer::find(11);
+        // return $tluStatusPengajuanDeveloper;
+        $pengajuanKeApersi = !empty($request->province_code_apersi) ? true : false;
+
 
         $request->validate(
             [
@@ -163,7 +170,7 @@ class DeveloperController extends Controller
                 'jumlah_lantai.integer'=>'tidak valid',
                 'luas_lantai.required'=>'Luas lantai harus diisi',
                 'luas_lantai.numeric'=>'tidak valid',
-                'blok_rumah.required'=> 'Blok rumah yang diajukan belum diisi',                                
+                'blok_rumah.required'=> 'Blok rumah yang akan diajukan belum diisi',                                
                 'perumahan_developer_id.required' => 'Nama perumahan yang diajukan belum dipilih',
                 'rumah_sample.required' => 'Rumah sample dari blok rumah yang diajukan belum dipilih',
                 'harga_jual_per_unit.required' => 'Harga jual dari per unit rumah yang diajukan belum diisi',
@@ -202,7 +209,7 @@ class DeveloperController extends Controller
                 'nomor_izin_lainnya' => $request->nomor_izin_lainnya, 
                 // 'pengajuan_ke_apersi', 
                 'province_code_apersi' => $request->province_code_apersi,
-                'tlu_sts_peng_dev_id'=> $tluStatusPengajuanDeveloper, 
+                'tlu_sts_peng_dev_id'=> $tluStatusPengajuanDeveloper->id, 
                 // 'biaya_jasa_total',
                 'timestamp_pengajuan' => $currentDateTime,                 
             ]);
@@ -212,9 +219,29 @@ class DeveloperController extends Controller
                 'developer_id' => $request->developer_id, 
                 'perumahan_developer_id' => $request->perumahan_developer_id, 
                 'timestamp' => $currentDateTime, 
-                'tlu_sts_peng_dev_id' => $tluStatusPengajuanDeveloper, 
+                'id_status_peng_dev' => $tluStatusPengajuanDeveloper->id,
+                'nama_status_peng_dev' => $tluStatusPengajuanDeveloper->nama_status,
+                'keterangan_status_peng_dev' => $tluStatusPengajuanDeveloper->keterangan, 
+                'role_status_peng_dev' => $tluStatusPengajuanDeveloper->role,
+                'pengajuan_ke_apersi' => $pengajuanKeApersi,
                 'user_id' => $userId
             ]); 
+
+
+            $blokRumahs = explode(",",$request->blok_rumah);
+            foreach ($blokRumahs as $blokRumah) {
+                $pengajuanDevelopersDetails[] = [
+                    'pengajuan_developer_id' => $newPengajuanDeveloper->id,
+                    'developer_id' => $request->developer_id,
+                    'perumahan_developer_id' => $request->perumahan_developer_id,
+                    'blok_rumah' => $blokRumah,
+                    'created_at' => $currentDateTime,
+                    'updated_at' => $currentDateTime,
+
+                ];
+            }
+            Pengajuan_developer_detail::insert($pengajuanDevelopersDetails);
+
 
             // Commit Transaction
             DB::commit();

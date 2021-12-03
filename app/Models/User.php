@@ -50,4 +50,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Developer::class);
     }
 
+    public function dpds() 
+    {
+        return $this->belongsToMany(Dpd::class);
+    }    
+
+    public function dpps() 
+    {
+        return $this->belongsToMany(Dpp::class);
+    }
+
+    public function banks() 
+    {
+        return $this->belongsToMany(Bank::class);
+    }    
+
 }

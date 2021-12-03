@@ -22,15 +22,15 @@ class CreateLogPengajuanBlokRumahsTable extends Migration
             $table->foreignId('perumahan_developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->string('blok_rumah', 10);
             $table->dateTime('timestamp', $precision = 0); 
-            $table->integer('tlu_sts_peng_blk_rmh_id'); 
-            $table->text('keterangan')->nullable(); 
+            $table->text('catatan')->nullable(); 
+
+            $table->integer('id_status_blok_rumah');
+            $table->string('nama_status_blok_rumah', 60);
+            $table->string('role_status_blok_rumah', 60);
+
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
 
-            $table->foreign('tlu_sts_peng_blk_rmh_id')
-            ->references('id')
-            ->on('tlu_status_pengajuan_blok_rumahs')
-            ->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

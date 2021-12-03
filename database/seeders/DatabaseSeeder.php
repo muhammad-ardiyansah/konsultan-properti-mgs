@@ -33,6 +33,9 @@ class DatabaseSeeder extends Seeder
             TluFungsiBangunanSeeder::class,
             TluStatusPengajuanDeveloperSeeder::class,
             TluStatusPengajuanBlokRumahSeeder::class,
+            DpdSeeder::class,
+            DppSeeder::class,
+            BankSeeder::class,
          ]);
     }
 }

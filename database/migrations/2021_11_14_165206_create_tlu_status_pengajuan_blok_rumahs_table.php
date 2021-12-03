@@ -17,7 +17,7 @@ class CreateTluStatusPengajuanBlokRumahsTable extends Migration
             // $table->id();
             $table->integer('id');
             $table->string('nama_status', 60);
-            $table->string('param', 60);
+            $table->string('role', 60);
             $table->timestamps();
 
             $table->primary('id');            

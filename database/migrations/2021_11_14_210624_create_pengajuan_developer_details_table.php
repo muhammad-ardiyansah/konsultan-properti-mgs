@@ -19,9 +19,9 @@ class CreatePengajuanDeveloperDetailsTable extends Migration
             $table->foreignId('developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('perumahan_developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->string('blok_rumah', 10);
-            $table->integer('tlu_sts_peng_blk_rmh_id');
+            $table->integer('tlu_sts_peng_blk_rmh_id')->nullable();
             $table->text('keterangan')->nullable();
-            $table->integer('biaya_jasa_per_unit');
+            $table->integer('biaya_jasa_per_unit')->nullable();
             $table->timestamps();
 
             $table->foreign('tlu_sts_peng_blk_rmh_id')

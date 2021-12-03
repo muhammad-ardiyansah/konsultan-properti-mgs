@@ -59,6 +59,13 @@
                     $oldLuasLantaiValue = "";
                 }
 
+                $oldBlokRumahValue = old('blok_rumah');
+                $msgErrBlokRumah = "";
+                if ($errors->has('blok_rumah') && !empty($oldBlokRumahValue)) {
+                    $msgErrBlokRumah = "\"".$oldBlokRumahValue."\"";
+                    $oldBlokRumahValue = "";
+                }                
+
                 $oldHargaJualPerUnitValue = old('harga_jual_per_unit');
                 $msgAddErrHargaJualPerUnit = "";
                 if ($errors->has('harga_jual_per_unit') && !empty($oldHargaJualPerUnitValue)) {
@@ -200,10 +207,10 @@
                                 <div class="row mb-3">
                                     <label for="blok_rumah" class="col-3 col-form-label">Letak bangunan (blok)</label>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" id="blok_rumah" name="blok_rumah" placeholder="" @error('blok_rumah') required @enderror data-role="tagsinput" value="{{ old('blok_rumah') }}">
+                                        <input type="text" class="form-control" id="blok_rumah" name="blok_rumah" placeholder="" @error('blok_rumah') required @enderror data-role="tagsinput" value="{{ $oldBlokRumahValue }}">
                                         @error('blok_rumah')
                                             <div class="invalid-feedback">
-                                                {{ $message }}
+                                                {{ $msgErrBlokRumah." ".$message }}
                                             </div>
                                         @enderror                                    
                                         <p class="muted">
