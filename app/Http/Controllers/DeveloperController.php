@@ -28,22 +28,72 @@ class DeveloperController extends Controller
         return view('developer.dashboard-developer');
     }    
 
-    public function listPengajuan() {
+    public function listPengajuan(Request $request) {
+
+        // $input = $request->all();
+        // print_r($input);        
 
         $user = User::find(Auth::id());
-        $developer = $user->developers()->first();        
+        $developer = $user->developers()->first();       
+        $developerId = $developer->id;
         $provinces = Province::pluck('name', 'code');
+        $perumahanDevelopers = Perumahan_developer::where('developer_id', $developer->id)
+        ->pluck('nama_perumahan', 'id');
+        // return $perumahanDevelopers;
 
-        $pengajuanDevelopers = Pengajuan_developer::sortable()->select('*')
-        ->where('pengajuan_developers.developer_id', '=', $developer->id)
+        $statusPengajuans = collect([
+            ['id' => 'Pengajuan Baru', 'nama_status' => 'Pengajuan Baru'],
+            ['id' => 'Edit Data', 'nama_status' => 'Edit Data'],
+            ['id' => 'Hold/Pending', 'nama_status' => 'Hold/Pending'],
+            ['id' => 'Menunggu Persetujuan DPD', 'nama_status' => 'Menunggu Persetujuan DPD'],
+            ['id' => 'Ditolak DPD', 'nama_status' => 'Ditolak DPD'],
+            ['id' => 'Disetujui DPD', 'nama_status' => 'Disetujui DPD'],
+            ['id' => 'Menunggu Persetujuan DPP', 'nama_status' => 'Menunggu Persetujuan DPP'],
+            ['id' => 'Ditolak DPP', 'nama_status' => 'Ditolak DPP'],
+            ['id' => 'Disetujui DPP', 'nama_status' => 'Disetujui DPP'],    
+            ['id' => 'Menunggu Persetujuan Konsultan', 'nama_status' => 'Menunggu Persetujuan Konsultan'],
+            ['id' => 'Ditolak Konsultan', 'nama_status' => 'Ditolak Konsultan'],
+            ['id' => 'Disetujui Konsultan', 'nama_status' => 'Disetujui Konsultan'],                    
+        ])->pluck('nama_status', 'id');
+        // return $statusPengajuans;
+        // return $statusPengajuans->pluck('nama_status', 'id');
+
+
+        // $pengajuanDevelopers = Pengajuan_developer::sortable()->select('*')
+        // $pengajuanDevelopers = Pengajuan_developer::where('developer_id', $developer->id)
         // ->where('nama_perumahan', 'LIKE','%'.$request->nama_perumahan.'%')
-        ->paginate(5)->withQueryString();
-
+        // ->paginate(5)->withQueryString();
         // return $pengajuanDevelopers;
 
+        // if (!empty($request->kode_pengajuan)) {
+        //     // echo "kode pengajuan";
+        //     $pengajuanDevelopers->where('kode_pengajuan', 'LIKE','%'.$request->kode_pengajuan.'%');
+        // }    
+        // $pengajuanDevelopers->paginate(5)->withQueryString();
+        // $pengajuanDevelopers->get();
+
+        $pengajuanDevelopers = Pengajuan_developer::where([
+            ['pengajuan_developers.developer_id', '=', $developer->id], 
+            [function ($query) use ($request) {
+            // $query->('developer_id', $request->developer_id);
+            if (!empty($request->kode_pengajuan)) {
+                $query->where('kode_pengajuan', 'LIKE', '%'.$request->kode_pengajuan.'%');
+            }
+
+            if (!empty($request->perumahan_developer_id)) {
+                $query->where('perumahan_developer_id', $request->perumahan_developer_id);
+            }
+
+            }]
+            ])->sortable()->paginate(5)->withQueryString();
+
+
         return view('developer.list-pengajuan-developer', compact(
+            'developerId',
             'pengajuanDevelopers',
-            'provinces'
+            'provinces',
+            'perumahanDevelopers',
+            'statusPengajuans'
         ));
     }
 

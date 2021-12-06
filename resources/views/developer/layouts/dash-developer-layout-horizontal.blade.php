@@ -210,7 +210,8 @@
 
         <!-- bundle -->
         <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
-        <script src="{{ asset('assets/js/app.min.js') }}"></script>
+        <!-- <script src="{{ asset('assets/js/app.min.js') }}"></script> -->
+        <script src="{{ asset('assets/js/app.js') }}"></script>
 
         <!-- third party js -->
         <script src="{{ asset('assets/js/vendor/apexcharts.min.js') }}"></script>
