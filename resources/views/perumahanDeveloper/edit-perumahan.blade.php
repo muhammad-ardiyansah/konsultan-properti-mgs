@@ -140,6 +140,10 @@
                         <div class="col-9">
                             <input name="id" type="hidden" value="{{ $perumahanDeveloper->id; }}">
                             <input name="developer_id" type="hidden" value="{{ $perumahanDeveloper->developer_id; }}">                        
+                            <input name="url_edit" type="hidden" value="{{ $urlEdit }}">
+                            <input name="url_list" type="hidden" value="{{ $urlList }}">
+                            <input name="is_ajax" type="hidden" value="1">
+                            <input name="validation_errors" id="validation_errors"  type="hidden" value="{{ $errors->any() ? 1 : '' }}">
                             <button type="Submit" class="btn btn-primary">Simpan</button>
                             <button type="Button" id="kembali" class="btn btn-warning">Kembali</button>
                         </div>

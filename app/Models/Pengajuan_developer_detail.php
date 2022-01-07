@@ -20,4 +20,10 @@ class Pengajuan_developer_detail extends Model implements Auditable
         'keterangan',
         'biaya_jasa_per_unit' 
     ];    
+
+    public function tlu_status_pengajuan_blok_rumah()
+    {
+        return $this->belongsTo(Tlu_status_pengajuan_blok_rumah::class, 'tlu_sts_peng_blk_rmh_id', 'id')->withDefault();
+    }
+
 }

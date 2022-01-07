@@ -1,4 +1,4 @@
-@extends('dpp.layouts.dash-dpp-layout')
+@extends('dpp.layouts.dash-dpp-layout-horizontal')
 @section('title','Konsultan Properti PT. Mitra Guntur Sarana')
 
 @section('content')

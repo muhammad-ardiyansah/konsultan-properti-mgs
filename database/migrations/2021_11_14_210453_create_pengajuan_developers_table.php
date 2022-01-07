@@ -31,7 +31,7 @@ class CreatePengajuanDevelopersTable extends Migration
             $table->string('rumah_sample', 20);
             $table->bigInteger('harga_jual_per_unit');
             $table->string('sertifikat_hak_atas_tanah')->nullable();
-            $table->string('izin_pemanfataan_tanah')->nullable();
+            $table->string('izin_pemanfaatan_tanah')->nullable();
             $table->string('pengesahan_site_plan')->nullable();
             $table->string('nomor_imb')->nullable();
             $table->string('jenis_nomor_izin_lainnya')->nullable();

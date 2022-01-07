@@ -1,4 +1,4 @@
-@extends('konsultan.layouts.dash-konsultan-layout')
+@extends('konsultan.layouts.dash-konsultan-layout-horizontal')
 @section('title','Konsultan Properti PT. Mitra Guntur Sarana')
 
 @section('content')
@@ -22,14 +22,15 @@
     <!-- end page title --> 
 
     <div class="row">
-    <div class="col-12">
-        <div class="card widget-flat">
-            <div class="card-body">
-                Selamat datang {{ Auth::user()->name }}
-            </div> <!-- end card-body-->
-        </div> <!-- end card-->
-    </div> <!-- end col-->
-
+        <div class="col-12">
+            <div class="card widget-flat">
+                <div class="card-body">
+                    Selamat datang {{ Auth::user()->name }}
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div>
+    
 </div>
 
 @endsection

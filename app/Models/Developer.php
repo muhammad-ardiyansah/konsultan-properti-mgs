@@ -24,4 +24,10 @@ class Developer extends Model
         return $this->belongsToMany(User::class);
     }    
 
+    public function pengajuan_developers()
+    {
+        // return $this->hasMany(Template_komponen_pemeriksaan::class, 'tlu_master_template_id', 'id');
+        return $this->hasMany(Pengajuan_developer::class);
+    }
+
 }

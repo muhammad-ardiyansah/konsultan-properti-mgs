@@ -10,9 +10,9 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Layouts</a></li> -->
-                        <!-- <li class="breadcrumb-item active">Form Pengajuan</li> -->
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Developer</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Pengajuan</a></li>
+                        <li class="breadcrumb-item active">Form Pengajuan</li>
                     </ol>
                 </div>
                 <h4 class="page-title">Input Pengajuan</h4>
@@ -261,9 +261,11 @@
                                     <div class="col-9">    
                                         <select class="form-control select2" name="rumah_sample" id="rumah_sample" data-toggle="select2" @error('rumah_sample') required @enderror >
                                         <option value="">[- Pilih 1 rumah yang mewakili semua blok rumah -]</option>
-                                            @forelse ($oldBlokRumahs as $oldBlokRumah)
-                                                <option value="{{ $oldBlokRumah }}" {{ $oldBlokRumah == old('rumah_sample') ? "selected" : "" }}>{{ $oldBlokRumah }}</option>
-                                            @endforeach
+                                            @if (!$msgErrBlokRumah)
+                                                @forelse ($oldBlokRumahs as $oldBlokRumah)
+                                                    <option value="{{ $oldBlokRumah }}" {{ $oldBlokRumah == old('rumah_sample') ? "selected" : "" }}>{{ $oldBlokRumah }}</option>
+                                                @endforeach
+                                            @endif    
                                         </select>          
                                         @error('rumah_sample')
                                             <div class="invalid-feedback">
@@ -285,6 +287,46 @@
                                     </div>
                                 </div>                            
     
+                        </div>
+                    </div> <!-- end card-body -->
+                </div> <!-- end card-->
+
+                <div class="card ribbon-box">
+                    <div class="card-body">
+                        <div class="ribbon ribbon-primary float-start"><i class="mdi mdi-access-point me-1"></i> Pengawas</div>
+                        <h5 class="text-primary float-end mt-0"><i class="uil-file-plus-alt"></i></h5>
+                        <div class="ribbon-content">
+                        
+                            <div class="row">
+                                <div class="col-12 text-end">
+                                    <a href="javascript:void(0)" id="show-pengawas">Tambah Pengawas</a>
+                                </div>
+                            </div>  
+
+                            <div class="row mb-3">
+                                <label for="pengawas_id" class="col-3 col-form-label">Data Pengawas</label>
+                                <div class="col-9">    
+                                    <select class="form-control select2" name="pengawas_id" id="pengawas_id" data-toggle="select2" @error('pengawas_id') required @enderror >
+                                    <option value="">[- Pilih Pengawas -]</option>
+                                    @foreach ($pengawas as $id => $nama_perusahaan)
+                                        <option value="{{ $id }}" {{ $id == old('pengawas_id') ? "selected" : "" }}>{{ $nama_perusahaan }}</option>
+                                    @endforeach                                        
+                                    </select>          
+                                    @error('pengawas_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>                      
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="penanggung_jawab_pengawas" class="col-lg-3 col-xl-3 col-form-label">Penanggung Jawab</label>
+                                <div class="col-lg-9 col-xl-9">
+                                    <input type="text" class="form-control" id="penanggung_jawab_pengawas" name="penanggung_jawab_pengawas" disabled value="">
+                                </div>
+                            </div>                            
+
                         </div>
                     </div> <!-- end card-body -->
                 </div> <!-- end card-->
@@ -475,10 +517,10 @@ window.addEventListener('DOMContentLoaded', function() {
             // $("#staticBackdrop").modal("show");
             var title = "{{ 'Daftar Perumahan '.$developer->nama_perusahaan }}";
             $.ajax({
-                url: "{{ route('developer.listPerumahanDeveloper',  ['developer_id' => $developer->id]) }}",
+                url: "{{ route('developer.listPerumahanDeveloperAjax') }}",
                 method: 'GET',
                 headers: headers,
-                data: {code: $(this).val()},
+                data: {developer_id: {{ $developer->id }} },
                 success: function (response) {
                     $("#staticBackdrop").modal("show");
                     $('.modal-title').html(title);
@@ -603,10 +645,10 @@ window.addEventListener('DOMContentLoaded', function() {
             // alert('test');
             var title = "{{ 'Tambah Perumahan '.$developer->nama_perusahaan }}";
             $.ajax({
-                url: "{{ route('developer.tambahPerumahanDeveloper',  ['developer_id' => $developer->id]) }}",
+                url: "{{ route('developer.tambahPerumahanDeveloper') }}",
                 method: 'GET',
                 headers: headers,
-                // data: {code: $(this).val()},
+                data: {developer_id: {{ $developer->id }}, url_tambah: 'developer.tambahPerumahanDeveloper', url_list: 'developer.listPerumahanDeveloperAjax' },
                 success: function (response) {
                     // $("#staticBackdrop").modal("show");
                     $('.modal-title').html(title);
@@ -626,7 +668,8 @@ window.addEventListener('DOMContentLoaded', function() {
             // alert($(this).attr("method"));
 
             $.ajax({
-                url: $(this).attr("action"),
+                // url: $(this).attr("action"),
+                url: "{{ route('developer.simpanPerumahanDeveloper') }}",
                 method: 'POST',
                 headers: headers,
                 data: $(this).serialize(),
@@ -648,8 +691,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
         function repopulatePerumahanDeveloperSelect() {
             $.ajax({
-                url: "{{ route('developer.getPerumahanDevelopers',  ['developer_id' => $developer->id]) }}",
+                url: "{{ route('developer.getPerumahanDevelopers') }}",
                 method: 'GET',
+                data: {developer_id: {{ $developer->id }} },
                 success: function (response) {
                     $('#perumahan_developer_id').empty();
 
@@ -670,10 +714,10 @@ window.addEventListener('DOMContentLoaded', function() {
             // alert('kembali');
             var title = "{{ 'Daftar Perumahan '.$developer->nama_perusahaan }}";
             $.ajax({
-                url: "{{ route('developer.listPerumahanDeveloper',  ['developer_id' => $developer->id]) }}",
+                url: "{{ route('developer.listPerumahanDeveloperAjax') }}",
                 method: 'GET',
                 headers: headers,
-                data: {code: $(this).val()},
+                data: {developer_id: {{ $developer->id }} },
                 success: function (response) {
                     $("#staticBackdrop").modal("show");
                     $('.modal-title').html(title);
@@ -719,7 +763,8 @@ window.addEventListener('DOMContentLoaded', function() {
             // alert($(this).attr("method"));
 
             $.ajax({
-                url: $(this).attr("action"),
+                // url: $(this).attr("action"),
+                url: "{{ route('developer.listPerumahanDeveloperAjax') }}",
                 method: 'GET',
                 headers: headers,
                 data: $(this).serialize(),
@@ -740,12 +785,16 @@ window.addEventListener('DOMContentLoaded', function() {
 
         $(document).on('click', ".edit", function(event) {
             event.preventDefault();
-
+            var index = $(".edit").index(this);
+            var id = $('input[name="id[]"]').eq(index).val();
+            // alert(id);
             var title = "{{ 'Edit Perumahan '.$developer->nama_perusahaan }}";
             $.ajax({
-                url: $(this).attr('href'),
+                // url: $(this).attr('href'),
+                url: "{{ route('developer.editPerumahanDeveloper') }}",
                 method: 'GET',
                 headers: headers,
+                data: {id: id, url_edit: 'developer.editPerumahanDeveloper', url_list: 'developer.listPerumahanDeveloperAjax'},
                 success: function (response) {
                     // $("#staticBackdrop").modal("show");
                     $('.modal-title').html(title);
@@ -766,10 +815,15 @@ window.addEventListener('DOMContentLoaded', function() {
             var index = $(".delete").index(this);
             var currentRow=$(this).closest("tr");
             var namaPerumahan=currentRow.find("td:eq(1)").text(); 
+            var id = $('input[name="id[]"]').eq(index).val();
+            // alert(id);
             
+            var route = "{!! route('developer.deletePerumahanDeveloper', ['id' => 'id-delete', 'url_list' => 'developer.listPerumahanDeveloperAjax']) !!}";
+            route = route.replace('id-delete', id);
+            // alert(route);            
             $('.title-confirm').html(title);
             // $('.modal-content-confirm').html(index);
-            $('#confirm-value').val($(this).attr('href'));
+            $('#confirm-value').val(route);
             // $('.modal-content-confirm').html($('#confirm-value').val());
             $('.modal-content-confirm').html('Apakah anda yakin akan menghapus data "'+ namaPerumahan + '"');
             $("#confirm-modal").modal("show");
@@ -780,8 +834,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
             $.ajax({
                 url: $('#confirm-value').val(),
-                method: 'GET',
+                // url: "{{ route('developer.deletePerumahanDeveloper') }}",
+                method: 'POST',
                 headers: headers,
+                // data: {id: $('#confirm-value').val(), url_list: 'developer.listPerumahanDeveloperAjax'},
                 success: function (response) {
                     $("#modal-content").empty();
                     $("#modal-content").html(response);                    
@@ -791,7 +847,212 @@ window.addEventListener('DOMContentLoaded', function() {
                     console.log(response);   
                 }                
             })            
+        });  
+
+
+        $('#show-pengawas').on('click', function () {
+
+            // $("#staticBackdrop").modal("show");
+            var title = "Daftar Pengawas";
+            $.ajax({
+                url: "{{ route('developer.listPengawasAjax') }}",
+                method: 'GET',
+                headers: headers,
+                success: function (response) {
+                    $("#staticBackdrop").modal("show");
+                    $('.modal-title').html(title);
+                    $("#modal-content").html(response);
+                },
+                error: function(response) {
+                    console.log(response);   
+                }                
+            })
+
+        });
+
+        $(document).on('click', "#tambah-pengawas", function(event) {
+            // $("#modal-content").empty();
+            // alert('test');
+            var title = "Tambah Pengawas";
+            $.ajax({
+                url: "{{ route('developer.tambahPengawas') }}",
+                method: 'GET',
+                headers: headers,
+                data: {url_tambah: 'developer.tambahPengawas', url_list: 'developer.listPengawasAjax'},
+                success: function (response) {
+                    // $("#staticBackdrop").modal("show");
+                    $('.modal-title').html(title);
+                    $("#modal-content").empty();
+                    $("#modal-content").html(response);                    
+
+                },
+                error: function(response) {
+                    console.log(response);   
+                }
+            })
+
+        });
+
+        $(document).on('submit', "#pengawas-form", function(event) {
+            // alert('submit');
+            // alert($(this).attr("method"));
+
+            $.ajax({
+                // url: $(this).attr("action"),
+                url: "{{ route('developer.simpanPengawas') }}",
+                method: 'POST',
+                headers: headers,
+                data: $(this).serialize(),
+                success: function (response) {
+                    // console.log(response);
+                    // console.log('Test');
+                    
+                    var errFlag = $(response).find("input[name='validation_errors']").val();                    
+                    $("#modal-content").empty();
+                    $("#modal-content").html(response);
+                    
+                    if(!errFlag){
+                        repopulatePengawasSelect();
+                    }   
+
+                },
+                error: function(response) {
+                    console.log(response);   
+                }    
+            })
+
+            return false;
+        });
+
+        function repopulatePengawasSelect() {
+            $.ajax({
+                url: "{{ route('developer.getPengawas') }}",
+                method: 'GET',
+                success: function (response) {
+                    $('#pengawas_id').empty();
+
+                    $('#pengawas_id').append(new Option('[- Pilih Pengawas -]', ''));
+                    $.each(response, function (id, nama_perusahaan) {
+                        $('#pengawas_id').append(new Option(nama_perusahaan, id))
+                        // alert(nama_perusahaan);
+                    })                    
+                },
+                error: function(response) {
+                    console.log(response);   
+                }
+            })
+        }
+
+        $(document).on('click', '#kembali-pengawas-form', function () {
+            // alert('kembali');
+            var title = "Daftar Pengawas";
+            $.ajax({
+                url: "{{ route('developer.listPengawasAjax') }}",
+                method: 'GET',
+                headers: headers,
+                success: function (response) {
+                    $("#staticBackdrop").modal("show");
+                    $('.modal-title').html(title);
+                    $("#modal-content").html(response);
+                },
+                error: function(response) {
+                    console.log(response);   
+                }
+            })
+
+        });
+
+        $(document).on('submit', "#cari-pengawas-form", function(event) {
+            // alert('submit');
+            // alert($(this).attr("method"));
+
+            $.ajax({
+                // url: $(this).attr("action"),
+                url: "{{ route('developer.listPengawasAjax') }}",
+                method: 'GET',
+                headers: headers,
+                data: $(this).serialize(),
+                success: function (response) {
+                    // console.log(response);
+                    // console.log('Test');
+                    $("#modal-content").empty();
+                    $("#modal-content").html(response);
+
+                },
+                error: function(response) {
+                    console.log(response);   
+                }    
+            })
+
+            return false;
+        });
+
+        $(document).on('click', ".edit-pengawas", function(event) {
+            event.preventDefault();
+            var index = $(".edit-pengawas").index(this);
+            var id = $('input[name="id[]"]').eq(index).val();
+            // alert(id);
+            var title = "Edit Pengawas";
+            $.ajax({
+                // url: $(this).attr('href'),
+                url: "{{ route('developer.editPengawas') }}",
+                method: 'GET',
+                headers: headers,
+                data: {id: id, url_edit: 'developer.editPengawas', url_list: 'developer.listPengawasAjax'},
+                success: function (response) {
+                    // $("#staticBackdrop").modal("show");
+                    $('.modal-title').html(title);
+                    $("#modal-content").empty();
+                    $("#modal-content").html(response);                    
+
+                },
+                error: function(response) {
+                    console.log(response);   
+                }                
+            })            
+        });
+
+        $(document).on('click', ".delete-pengawas", function(event) {
+            event.preventDefault();        
+            // alert('delete');
+            var title = "Konfirmasi penghapusan data";
+            var index = $(".delete-pengawas").index(this);
+            var currentRow=$(this).closest("tr");
+            var namaPerusahaan=currentRow.find("td:eq(2)").text(); 
+            var id = $('input[name="id[]"]').eq(index).val();
+            // alert(id);
+
+            var route = "{!! route('developer.deletePengawas', ['id' => 'id-delete', 'url_list' => 'developer.listPengawasAjax']) !!}";
+            route = route.replace('id-delete', id);
+            // alert(route);
+            $('.title-confirm').html(title);
+            // $('.modal-content-confirm').html(index);
+            $('#confirm-value').val(route);
+            // $('.modal-content-confirm').html($('#confirm-value').val());
+            $('.modal-content-confirm').html('Apakah anda yakin akan menghapus data "'+ namaPerusahaan + '"');
+            $("#confirm-modal").modal("show");
+        });
+
+        $('#pengawas_id').on('change', function () {
+            // alert($(this).val());
+            
+            $.ajax({
+                url: "{{ route('developer.getPenanggungJawabPengawas') }}",
+                method: 'GET',
+                headers: headers,
+                data: {id: $(this).val()},
+                success: function (response) {
+                    // console.log(response);
+                    $('#penanggung_jawab_pengawas').val(response);
+                },
+                error: function(response) {
+                    console.log(response);   
+                }                
+            })
+
         });        
+
+
 
     });
 

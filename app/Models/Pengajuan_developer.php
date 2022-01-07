@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Kyslik\ColumnSortable\Sortable;
-use Illuminate\Support\Carbon;
 
 
 class Pengajuan_developer extends Model implements Auditable
@@ -33,7 +32,7 @@ class Pengajuan_developer extends Model implements Auditable
         'rumah_sample', 
         'harga_jual_per_unit', 
         'sertifikat_hak_atas_tanah', 
-        'izin_pemanfataan_tanah', 
+        'izin_pemanfaatan_tanah', 
         'pengesahan_site_plan', 
         'nomor_imb', 
         'jenis_nomor_izin_lainnya', 
@@ -46,23 +45,35 @@ class Pengajuan_developer extends Model implements Auditable
         'ijin_edit',
     ];    
 
-    public function getTimestampPengajuanAttribute() {
-        return Carbon::parse($this->attributes['timestamp_pengajuan'])
-        ->translatedFormat('d-M-Y H:i:s');
-        // ->translatedFormat('l, d F Y');
-    }
+    // public function getTimestampPengajuanAttribute() {
+    //     return Carbon::parse($this->attributes['timestamp_pengajuan'])
+    //     ->translatedFormat('d-M-Y H:i:s');
+    //     // ->translatedFormat('l, d F Y');
+    // }
 
-    public function getBlokRumahAttribute() {
-        // return  wordwrap('A1,A2,A3,A4,A5,A6,A7', 9, "\n", true);
-        return  wordwrap($this->attributes['blok_rumah'], 9, "\n", true);
-        // return strlen($this->attributes['blok_rumah']);
-        // return $this->attributes['blok_rumah'];
+    // public function getBlokRumahAttribute() {
+    //     // return  wordwrap('A1,A2,A3,A4,A5,A6,A7', 9, "\n", true);
+    //     return  wordwrap($this->attributes['blok_rumah'], 9, "\n", true);
+    //     // return strlen($this->attributes['blok_rumah']);
+    //     // return $this->attributes['blok_rumah'];
+    // }
+
+    public function getJumlahLantaiAttribute() {
+        return intval($this->attributes['jumlah_lantai']);       
     }
 
     public function developer()
     {
         return $this->belongsTo(Developer::class);
     }
+
+    public function tlu_fungsi_bangunan() {
+        return $this->belongsTo(Tlu_fungsi_bangunan::class);
+    }
+
+    public function tlu_tipe_rumah() {
+        return $this->belongsTo(Tlu_tipe_rumah::class);
+    }    
 
     public function perumahan_developer()
     {
@@ -77,6 +88,17 @@ class Pengajuan_developer extends Model implements Auditable
     public function province_apersi()
     {
         return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code_apersi', 'code')->withDefault();
+    }
+
+    public function pengawas()
+    {
+        return $this->belongsTo(Pengawas::class, 'pengawas_id', 'id')->withDefault();
+    }
+
+    public function invoice_header()
+    {
+        // return $this->hasMany(Template_komponen_pemeriksaan::class, 'tlu_master_template_id', 'id');
+        return $this->hasOne(Invoice_header::class)->withDefault();
     }
 
 }

@@ -9,6 +9,10 @@ use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\PengawasController;
 use App\Http\Controllers\PerumahanDeveloperController;
 use App\Http\Controllers\KomponenPemeriksaanRoleKonsultanController;
+use App\Http\Controllers\HasilLaporanController;
+use App\Http\Controllers\BankRekeningController;
+use App\Http\Controllers\RekeningController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -54,6 +58,17 @@ Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth','Preven
 // Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth']], function(){
     
     Route::get('dashboard',[KonsultanController::class,'index'])->name('konsultan.dashboard');
+    // Route::get('getPerumahanDevelopers',[KonsultanController::class,'getPerumahanDevelopers'])->name('konsultan.getPerumahanDevelopers');
+    Route::get('listPengajuan',[KonsultanController::class,'listPengajuan'])->name('konsultan.listPengajuan');
+    Route::get('formPengajuan',[KonsultanController::class,'formPengajuan'])->name('konsultan.formPengajuan');
+    Route::post('simpanPengajuan',[KonsultanController::class,'simpanPengajuan'])->name('konsultan.simpanPengajuan');
+    Route::get('detailPengajuan',[KonsultanController::class,'detailPengajuan'])->name('konsultan.detailPengajuan');
+    Route::post('setIjinEditPengajuan',[KonsultanController::class,'setIjinEditPengajuan'])->name('konsultan.setIjinEditPengajuan');
+    Route::post('setStatusPengajuan',[KonsultanController::class,'setStatusPengajuan'])->name('konsultan.setStatusPengajuan');
+    Route::post('editDataPengajuan',[KonsultanController::class,'editDataPengajuan'])->name('konsultan.editDataPengajuan');
+    Route::get('editFormPengajuan',[KonsultanController::class,'editFormPengajuan'])->name('konsultan.editFormPengajuan');
+    Route::post('updatePengajuan',[KonsultanController::class,'updatePengajuan'])->name('konsultan.updatePengajuan');
+
     Route::get('masterTemplateKomponenPemeriksaan',[KomponenPemeriksaanRoleKonsultanController::class,'masterTemplateKomponenPemeriksaan'])->name('konsultan.masterTemplateKomponenPemeriksaan');
     Route::get('tambahMasterTemplateKomponenPemeriksaan',[KomponenPemeriksaanRoleKonsultanController::class,'tambahMasterTemplateKomponenPemeriksaan'])->name('konsultan.tambahMasterTemplateKomponenPemeriksaan');
     Route::get('editMasterTemplateKomponenPemeriksaan/{id}',[KomponenPemeriksaanRoleKonsultanController::class,'editMasterTemplateKomponenPemeriksaan'])->name('konsultan.editMasterTemplateKomponenPemeriksaan');
@@ -103,8 +118,43 @@ Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth','Preven
     Route::view('kelompokInputTextKeterangan', 'konsultan.template-komponen.tambah.kelompok-input-text-keterangan')->name('konsultan.getKelompokInputTextKeterangan');
     Route::get('kelompokInputCheckboxKeterangan', [KomponenPemeriksaanRoleKonsultanController::class,'getKelompokInputCheckboxKeterangan'])->name('konsultan.getKelompokInputCheckboxKeterangan');        
 
-    Route::post('setStatusPengajuan',[PengajuanRoleKonsultanController::class,'index'])->name('konsultan.setStatusPengajuan');
-    Route::post('editDataPengajuan',[PengajuanRoleKonsultanController::class,'index'])->name('konsultan.editDataPengajuan');
+    Route::get('listPerumahanDeveloper',[PerumahanDeveloperController::class,'indexKonsultan'])->name('konsultan.listPerumahanDeveloper');
+    Route::get('listPerumahanDeveloperAjax',[PerumahanDeveloperController::class,'indexAjax'])->name('konsultan.listPerumahanDeveloperAjax');
+    Route::get('tambahPerumahanDeveloper',[PerumahanDeveloperController::class,'tambah'])->name('konsultan.tambahPerumahanDeveloper');
+    Route::get('editPerumahanDeveloper',[PerumahanDeveloperController::class,'edit'])->name('konsultan.editPerumahanDeveloper');
+    Route::post('deletePerumahanDeveloper',[PerumahanDeveloperController::class,'delete'])->name('konsultan.deletePerumahanDeveloper');
+    Route::post('simpanPerumahanDeveloper',[PerumahanDeveloperController::class,'simpan'])->name('konsultan.simpanPerumahanDeveloper');
+    Route::get('getPerumahanDevelopers',[PerumahanDeveloperController::class,'getPerumahanDevelopers'])->name('konsultan.getPerumahanDevelopers');
+    Route::get('getPerumahanDeveloperAdditionalInfo/{id}',[PerumahanDeveloperController::class,'getPerumahanDeveloperAdditionalInfo'])->name('konsultan.getPerumahanDeveloperAdditionalInfo');
+
+    Route::get('listPengawas',[PengawasController::class,'indexKonsultan'])->name('konsultan.listPengawas');
+    Route::get('listPengawasAjax',[PengawasController::class,'indexAjax'])->name('konsultan.listPengawasAjax');
+    Route::get('tambahPengawas',[PengawasController::class,'tambah'])->name('konsultan.tambahPengawas');
+    Route::get('editPengawas',[PengawasController::class,'edit'])->name('konsultan.editPengawas');
+    Route::post('deletePengawas',[PengawasController::class,'delete'])->name('konsultan.deletePengawas');
+    Route::post('simpanPengawas',[PengawasController::class,'simpan'])->name('konsultan.simpanPengawas');
+    Route::get('getPengawas',[PengawasController::class,'getPengawas'])->name('konsultan.getPengawas');
+    Route::get('getPenanggungJawabPengawas',[PengawasController::class,'getPenanggungJawabPengawas'])->name('konsultan.getPenanggungJawabPengawas');
+
+    Route::get('laporanPengajuan',[KonsultanController::class,'laporanPengajuan'])->name('konsultan.laporanPengajuan');
+    Route::post('uploadLaporanPengajuan',[KonsultanController::class,'uploadLaporanPengajuan'])->name('konsultan.uploadLaporanPengajuan');
+    Route::get('getLaporan/{filename}', [HasilLaporanController::class, 'getLaporan'])->name('konsultan.getLaporan');
+
+    Route::get('bankRekening',[BankRekeningController::class,'index'])->name('konsultan.bankRekening');
+    Route::get('tambahBankRekening',[BankRekeningController::class,'tambah'])->name('konsultan.tambahBankRekening');
+    Route::get('editBankRekening',[BankRekeningController::class,'edit'])->name('konsultan.editBankRekening');
+    Route::post('simpanBankRekening',[BankRekeningController::class,'simpan'])->name('konsultan.simpanBankRekening');
+    Route::post('deleteBankRekening',[BankRekeningController::class,'delete'])->name('konsultan.deleteBankRekening');
+
+    Route::get('indexRekeningKonsultan',[RekeningController::class,'indexRekeningKonsultan'])->name('konsultan.indexRekeningKonsultan');
+    Route::get('tambahRekeningKonsultan',[RekeningController::class,'tambahRekeningKonsultan'])->name('konsultan.tambahRekeningKonsultan');
+    Route::get('editRekeningKonsultan',[RekeningController::class,'editRekeningKonsultan'])->name('konsultan.editRekeningKonsultan');
+    Route::post('simpanRekeningKonsultan',[RekeningController::class,'simpanRekeningKonsultan'])->name('konsultan.simpanRekeningKonsultan');
+    Route::post('deleteRekeningKonsultan',[RekeningController::class,'deleteRekeningKonsultan'])->name('konsultan.deleteRekeningKonsultan');    
+
+    Route::get('indexInvoiceKonsultan',[InvoiceController::class,'indexInvoiceKonsultan'])->name('konsultan.indexInvoiceKonsultan');
+    Route::get('invoicePageKonsultan',[InvoiceController::class,'invoicePageKonsultan'])->name('konsultan.invoicePageKonsultan');
+
 
 });
 
@@ -112,13 +162,20 @@ Route::group(['prefix'=>'dpd', 'middleware'=>['isDpd','auth','PreventBackHistory
 // Route::group(['prefix'=>'dpd', 'middleware'=>['isDpd','auth']], function(){
     
     Route::get('dashboard',[DpdController::class,'index'])->name('dpd.dashboard');
-   
+    Route::get('listPengajuan',[DpdController::class,'listPengajuan'])->name('dpd.listPengajuan');
+    Route::get('detailPengajuan',[DpdController::class,'detailPengajuan'])->name('dpd.detailPengajuan');
+    Route::post('setStatusPengajuan',[DpdController::class,'setStatusPengajuan'])->name('dpd.setStatusPengajuan');   
+
 });
 
 Route::group(['prefix'=>'dpp', 'middleware'=>['isDpp','auth','PreventBackHistory']], function(){
 // Route::group(['prefix'=>'dpp', 'middleware'=>['isDpp','auth']], function(){    
     Route::get('dashboard',[DppController::class,'index'])->name('dpp.dashboard');
-   
+    Route::get('listPengajuan',[DppController::class,'listPengajuan'])->name('dpp.listPengajuan');
+    Route::get('detailPengajuan',[DppController::class,'detailPengajuan'])->name('dpp.detailPengajuan');
+    Route::post('setStatusPengajuan',[DppController::class,'setStatusPengajuan'])->name('dpp.setStatusPengajuan');    
+
+
 });
 
 Route::group(['prefix'=>'developer', 'middleware'=>['isDeveloper','auth','PreventBackHistory']], function(){
@@ -129,17 +186,31 @@ Route::group(['prefix'=>'developer', 'middleware'=>['isDeveloper','auth','Preven
     Route::get('listPengajuan',[DeveloperController::class,'listPengajuan'])->name('developer.listPengajuan');
     Route::get('formPengajuan',[DeveloperController::class,'formPengajuan'])->name('developer.formPengajuan');
     Route::post('simpanPengajuan',[DeveloperController::class,'simpanPengajuan'])->name('developer.simpanPengajuan');
+    Route::get('detailPengajuan',[DeveloperController::class,'detailPengajuan'])->name('developer.detailPengajuan');
+    Route::post('setStatusPengajuan',[DeveloperController::class,'setStatusPengajuan'])->name('developer.setStatusPengajuan');
+    Route::post('editDataPengajuan',[DeveloperController::class,'editDataPengajuan'])->name('developer.editDataPengajuan');
+    Route::get('editFormPengajuan',[DeveloperController::class,'editFormPengajuan'])->name('developer.editFormPengajuan');
+    Route::post('updatePengajuan',[DeveloperController::class,'updatePengajuan'])->name('developer.updatePengajuan');
 
-    Route::get('listPerumahanDeveloper/{developer_id}',[PerumahanDeveloperController::class,'index'])->name('developer.listPerumahanDeveloper');
-    Route::get('tambahPerumahanDeveloper/{developer_id}',[PerumahanDeveloperController::class,'tambah'])->name('developer.tambahPerumahanDeveloper');
-    Route::get('editPerumahanDeveloper/{id}',[PerumahanDeveloperController::class,'edit'])->name('developer.editPerumahanDeveloper');
-    Route::get('deletePerumahanDeveloper/{id}',[PerumahanDeveloperController::class,'delete'])->name('developer.deletePerumahanDeveloper');
+    Route::get('listPerumahanDeveloper',[PerumahanDeveloperController::class,'indexDeveloper'])->name('developer.listPerumahanDeveloper');
+    Route::get('listPerumahanDeveloperAjax',[PerumahanDeveloperController::class,'indexAjax'])->name('developer.listPerumahanDeveloperAjax');
+    Route::get('tambahPerumahanDeveloper',[PerumahanDeveloperController::class,'tambah'])->name('developer.tambahPerumahanDeveloper');
+    Route::get('editPerumahanDeveloper',[PerumahanDeveloperController::class,'edit'])->name('developer.editPerumahanDeveloper');
+    Route::post('deletePerumahanDeveloper',[PerumahanDeveloperController::class,'delete'])->name('developer.deletePerumahanDeveloper');
     Route::post('simpanPerumahanDeveloper',[PerumahanDeveloperController::class,'simpan'])->name('developer.simpanPerumahanDeveloper');
     Route::get('getPerumahanDeveloperAdditionalInfo/{id}',[PerumahanDeveloperController::class,'getPerumahanDeveloperAdditionalInfo'])->name('developer.getPerumahanDeveloperAdditionalInfo');
-    Route::get('getPerumahanDevelopers/{developer_id}',[DeveloperController::class,'getPerumahanDevelopers'])->name('developer.getPerumahanDevelopers');
+    Route::get('getPerumahanDevelopers',[PerumahanDeveloperController::class,'getPerumahanDevelopers'])->name('developer.getPerumahanDevelopers');
 
-    Route::post('setStatusPengajuan',[PengajuanRoleDeveloperController::class,'index'])->name('developer.setStatusPengajuan');
-    Route::post('editDataPengajuan',[PengajuanRoleDeveloperController::class,'index'])->name('developer.editDataPengajuan');
+    Route::get('listPengawas',[PengawasController::class,'indexKonsultan'])->name('developer.listPengawas');
+    Route::get('listPengawasAjax',[PengawasController::class,'indexAjax'])->name('developer.listPengawasAjax');
+    Route::get('tambahPengawas',[PengawasController::class,'tambah'])->name('developer.tambahPengawas');
+    Route::get('editPengawas',[PengawasController::class,'edit'])->name('developer.editPengawas');
+    Route::post('deletePengawas',[PengawasController::class,'delete'])->name('developer.deletePengawas');
+    Route::post('simpanPengawas',[PengawasController::class,'simpan'])->name('developer.simpanPengawas');
+    Route::get('getPengawas',[PengawasController::class,'getPengawas'])->name('developer.getPengawas');
+    Route::get('getPenanggungJawabPengawas',[PengawasController::class,'getPenanggungJawabPengawas'])->name('developer.getPenanggungJawabPengawas');
+
+
 });
 
 Route::group(['prefix'=>'pengawas', 'middleware'=>['isPengawas','auth','PreventBackHistory']], function(){

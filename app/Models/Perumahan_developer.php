@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Perumahan_developer extends Model
+class Perumahan_developer extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'developer_id',
@@ -19,6 +21,11 @@ class Perumahan_developer extends Model
         'kampung',
         'alamat'
     ];
+
+    public function developer()
+    {
+        return $this->belongsTo(Developer::class);
+    }
 
     public function province()
     {
@@ -40,6 +47,10 @@ class Perumahan_developer extends Model
         return $this->belongsTo('Laravolt\Indonesia\Models\Village', 'village_code', 'code');
     }    
 
-    
+    public function pengajuan_developers()
+    {
+        // return $this->hasMany(Template_komponen_pemeriksaan::class, 'tlu_master_template_id', 'id');
+        return $this->hasMany(Pengajuan_developer::class);
+    }    
 
 }

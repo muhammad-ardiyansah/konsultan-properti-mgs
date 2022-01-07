@@ -144,11 +144,13 @@
         
                                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                                     <ul class="navbar-nav">
+
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle arrow-none" href="{{ route('konsultan.dashboard') }}" id="topnav-dashboards" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a class="nav-link dropdown-toggle arrow-none" href="{{ route('konsultan.dashboard') }}" id="topnav-dashboards" role="button" aria-haspopup="true" aria-expanded="false">
                                                 <i class="uil-home-alt me-1"></i>Beranda
                                             </a>
                                         </li>
+
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-developer" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="uil-constructor me-1"></i>Developer <div class="arrow-down"></div>
@@ -159,7 +161,8 @@
                                                         Pengajuan <div class="arrow-down"></div>
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="topnav-pengajuan-developer">
-                                                        <a href="apps-ecommerce-products.html" class="dropdown-item">List Pengajuan</a>
+                                                        <a href="{{ route('konsultan.listPengajuan') }}" class="dropdown-item">List Pengajuan</a>
+                                                        <a href="{{ route('konsultan.formPengajuan') }}" class="dropdown-item">Form Pengajuan</a>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown">
@@ -167,12 +170,23 @@
                                                         Perumahan <div class="arrow-down"></div>
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="topnav-perumahan">
-                                                        <a href="apps-email-inbox.html" class="dropdown-item">List Perumahan</a>
+                                                        <a href="{{ route('konsultan.listPerumahanDeveloper') }}" class="dropdown-item">List Perumahan</a>
                                                     </div>
                                                 </div>                                                
                                             </div>
                                         </li>
            
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-invoice" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="uil-chart me-1"></i>Invoice <div class="arrow-down"></div>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="topnav-invoice">
+                                                <a href="{{ route('konsultan.bankRekening') }}" class="dropdown-item">Bank</a>
+                                                <a href="{{ route('konsultan.indexRekeningKonsultan') }}" class="dropdown-item">Nomor Rekening</a>
+                                                <a href="{{ route('konsultan.indexInvoiceKonsultan') }}" class="dropdown-item">List Invoice</a>                                            
+                                            </div>
+                                        </li>
 
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pengaturan" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -192,6 +206,7 @@
                                                 </div>                                            
                                             </div>
                                         </li>
+
                                     </ul>
                                 </div>
                             </nav>

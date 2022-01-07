@@ -18,7 +18,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 11,
             'nama_status' => 'Pengajuan baru',
             'keterangan' => 'Input pengajuan oleh Developer',
-            'pilihan_status'=> '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"24","text":"Ajukan ke DPD","route":"route(\'konsultan.setStatusPengajuan\')"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"64","text":"Proses Pengajuan","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"12","text":"Edit Data","route":"route(\'developer.setStatusPengajuan\')"}}',
+            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"24","text":"Ajukan ke DPD","route":"konsultan.setStatusPengajuan"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"64","text":"Proses Pengajuan","route":"konsultan.setStatusPengajuan"}],"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"}}',
             'role' => 'DEVELOPER'
         ]);
 
@@ -26,7 +26,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 12,
             'nama_status' => 'Edit Data',
             'keterangan' => 'Developer telah merubah data',
-            'pilihan_status'=> '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"24","text":"Ajukan ke DPD","route":"route(\'konsultan.setStatusPengajuan\')"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"64","text":"Proses Pengajuan","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"12","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"}}',
+            'pilihan_status' => '',
             'role' => 'DEVELOPER'
         ]);        
         
@@ -34,7 +34,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 21,
             'nama_status' => 'Ditolak DPD',
             'keterangan' => 'Pengajuan ditolak DPD',
-            'pilihan_status'=>'{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"24","text":"Ajukan ke DPD","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"12","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"},"dpd":{"id_status":"31","text":"Setujui","route":"route(\'dpd.setStatusPengajuan\')"}}',
+            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"24","text":"Ajukan ke DPD","route":"konsultan.setStatusPengajuan"}],"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"}}',
             'role' => 'DPD'
         ]);
         
@@ -42,7 +42,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 22,
             'nama_status' => 'Edit Data',
             'keterangan' => 'Data dirubah',
-            'pilihan_status'=>'{"konsultan_province_code_apersi_not_null":[{"id_status":"22","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"23","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"44","text":"Ajukan ke DPP","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"22","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"}}',
+            'pilihan_status' => '',
             'role' => 'DPD'
         ]);
 
@@ -50,15 +50,15 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 23,
             'nama_status' => 'Hold/Pending',
             'keterangan' => 'Pengajuan ditunda/hold',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"22","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"44","text":"Ajukan ke DPP","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"22","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"}}',
+            'pilihan_status' => '',
             'role' => 'DPD'
         ]);        
 
         Tlu_status_pengajuan_developer::create([
             'id' => 24,
             'nama_status' => 'Menunggu persetujuan DPD',
-            'pilihan_status' => '{"dpd":[{"id_status":"21","text":"Tolak","route":"route(\'dpd.setStatusPengajuan\')"},{"id_status":"31","text":"Setujui","route":"route(\'dpd.setStatusPengajuan\')"}]}',
             'keterangan' => 'Pengajuan diteruskan ke DPD',
+            'pilihan_status' => '{"dpd":[{"id_status":"21","text":"Tolak","route":"dpd.setStatusPengajuan"},{"id_status":"31","text":"Setujui","route":"dpd.setStatusPengajuan"}],"konsultan_province_code_apersi_not_null":{"id_status":"62","text":"Edit Data","route":"konsultan.ediDataPengajuan"},"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"}}',
             'role' => 'DPD'
         ]);        
 
@@ -66,7 +66,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 31,
             'nama_status' => 'Disetujui DPD',
             'keterangan' => 'Pengajuan Disetujui DPD',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"22","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"23","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"44","text":"Ajukan ke DPP","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"22","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"},"dpd":{"id_status":"21","text":"Tolak","route":"route(\'dpd.setStatusPengajuan\')"}}',
+            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"67","text":"Tolak","route":"konsultan.setStatusPengajuan"},{"id_status":"71","text":"Setujui","route":"konsultan.setStatusPengajuan"}],"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"},"dpd":[{"id_status":"21","text":"Tolak","route":"dpd.setStatusPengajuan"},{"id_status":"31","text":"Setujui","route":"dpd.setStatusPengajuan"}]}',
             'role' => 'DPD'
         ]);        
 
@@ -74,7 +74,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 41,
             'nama_status' => 'Ditolak DPP',
             'keterangan' => 'Pengajuan ditolak DPP',
-            'pilihan_status'=>'{"konsultan_province_code_apersi_not_null":[{"id_status":"22","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"23","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"44","text":"Ajukan ke DPP","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"22","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"},"dpp":{"id_status":"51","text":"Setujui","route":"route(\'dpp.setStatusPengajuan\')"}}',
+            'pilihan_status'=>'',
             'role' => 'DPP'
         ]);
 
@@ -82,7 +82,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 42,
             'nama_status' => 'Edit Data',
             'keterangan' => 'Data dirubah',
-            'pilihan_status'=>'{"konsultan_province_code_apersi_not_null":[{"id_status":"42","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"43","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"42","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"}}',
+            'pilihan_status'=>'',
             'role' => 'DPP'
         ]);
 
@@ -90,7 +90,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 43,
             'nama_status' => 'Hold/Pending',
             'keterangan' => 'Pengajuan ditunda/hold',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"42","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"}],"developer":{"id_status":"42","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"}}',
+            'pilihan_status' => '',
             'role' => 'DPP'
         ]);
 
@@ -98,7 +98,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 44,
             'nama_status' => 'Menunggu persetujuan DPP',
             'keterangan' => 'Pengajuan diteruskan ke DPP',
-            'pilihan_status' => '{"dpp":[{"id_status":"41","text":"Tolak","route":"route(\'dpp.setStatusPengajuan\')"},{"id_status":"51","text":"Setujui","route":"route(\'dpp.setStatusPengajuan\')"}]}',
+            'pilihan_status' => '',
             'role' => 'DPP'
         ]);
 
@@ -106,7 +106,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 51,
             'nama_status' => 'Disetujui DPP',
             'keterangan' => 'Pengajuan disetujui DPP',
-            'pilihan_status'=>'{"konsultan_province_code_apersi_not_null":[{"id_status":"42","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"43","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"67","text":"Tolak","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"71","text":"Setujui","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"42","text":"Edit Data","route":"route(\'developer.editDataPengajuan\')"}}',
+            'pilihan_status'=>'',
             'role' => 'DPP'
         ]);
 
@@ -114,7 +114,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 61,
             'nama_status' => 'Pengajuan baru',
             'keterangan' => 'Input pengajuan oleh Konsultan',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"24","text":"Ajukan ke DPD","route":"route(\'konsultan.setStatusPengajuan\')"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"64","text":"Proses Pengajuan","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"12","text":"Edit Data","route":"route(\'developer.setStatusPengajuan\')"}}',
+            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"24","text":"Ajukan ke DPD","route":"konsultan.setStatusPengajuan"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"64","text":"Proses Pengajuan","route":"konsultan.setStatusPengajuan"}],"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"}}',
             'role' => 'KONSULTAN'
         ]);
 
@@ -122,7 +122,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 62,
             'nama_status' => 'Edit data',
             'keterangan' => 'Konsultan telah merubah data',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"24","text":"Ajukan ke DPD","route":"route(\'konsultan.setStatusPengajuan\')"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"63","text":"Hold/Pending","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"64","text":"Proses Pengajuan","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"12","text":"Edit Data","route":"route(\'developer.setStatusPengajuan\')"}}',
+            'pilihan_status' => '',
             'role' => 'KONSULTAN'
         ]);
 
@@ -130,7 +130,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 63,
             'nama_status' => 'Hold/Pending',
             'keterangan' => 'Pengajuan ditunda/hold',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"24","text":"Ajukan ke DPD","route":"route(\'konsultan.setStatusPengajuan\')"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"route(\'konsultan.editDataPengajuan\')"},{"id_status":"64","text":"Proses Pengajuan","route":"route(\'konsultan.setStatusPengajuan\')"}],"developer":{"id_status":"12","text":"Edit Data","route":"route(\'developer.setStatusPengajuan\')"}}',
+            'pilihan_status' => '',
             'role' => 'KONSULTAN'
         ]);        
 
@@ -138,7 +138,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 64,
             'nama_status' => 'Pengajuan diproses',
             'keterangan' => 'Konsultan memproses pengajuan',
-            'pilihan_status' => '{"konsultan":[{"id_status":"67","text":"Tolak","route":"route(\'konsultan.setStatusPengajuan\')"},{"id_status":"71","text":"Setujui","route":"route(\'konsultan.setStatusPengajuan\')"}]}',
+            'pilihan_status' => '{"konsultan":[{"id_status":"62","text":"Edit Data","route":"konsultan.setStatusPengajuan"},{"id_status":"67","text":"Tolak","route":"konsultan.setStatusPengajuan"},{"id_status":"71","text":"Setujui","route":"konsultan.setStatusPengajuan"}],"Developer":{"id_status":"12","text":"Edit Data","route":"developer.setStatusPengajuan"}}',
             'role' => 'KONSULTAN'
         ]);
 
@@ -146,7 +146,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 67,
             'nama_status' => 'Ditolak Konsultan',
             'keterangan' => 'Pengajuan ditolak konsultan',
-            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":{"id_status":"71","text":"Setujui","route":"route(\'konsultan.setStatusPengajuan\')"},"konsultan":{"id_status":"71","text":"Setujui","route":"route(\'konsultan.setStatusPengajuan\')"}}',
+            'pilihan_status' =>'{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"67","text":"Tolak","route":"konsultan.setStatusPengajuan"},{"id_status":"71","text":"Setujui","route":"konsultan.setStatusPengajuan"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"67","text":"Tolak","route":"konsultan.setStatusPengajuan"},{"id_status":"71","text":"Setujui","route":"konsultan.setStatusPengajuan"}],"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"}}',
             'role' => 'KONSULTAN'
         ]);
 
@@ -154,6 +154,7 @@ class TluStatusPengajuanDeveloperSeeder extends Seeder
             'id' => 71,
             'nama_status' => 'Disetujui Konsultan',
             'keterangan' => 'Pengajuan disetujui konsultan',
+            'pilihan_status' => '{"konsultan_province_code_apersi_not_null":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"67","text":"Tolak","route":"konsultan.setStatusPengajuan"},{"id_status":"71","text":"Setujui","route":"konsultan.setStatusPengajuan"}],"konsultan":[{"id_status":"62","text":"Edit Data","route":"konsultan.editDataPengajuan"},{"id_status":"67","text":"Tolak","route":"konsultan.setStatusPengajuan"},{"id_status":"71","text":"Setujui","route":"konsultan.setStatusPengajuan"}],"developer":{"id_status":"12","text":"Edit Data","route":"developer.editDataPengajuan"}}',
             'role' => 'KONSULTAN'
         ]);
 

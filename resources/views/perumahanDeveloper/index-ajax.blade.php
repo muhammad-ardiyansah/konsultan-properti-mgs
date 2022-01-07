@@ -17,10 +17,11 @@
 
         <div class="row d-flex justify-content-end">
             <div class="col-md-6">
-                <form id="cari-perumahan-developer-form" method="get" action="{{ route('developer.listPerumahanDeveloper', ['developer_id' => $developer_id]) }}">
+                <form id="cari-perumahan-developer-form" method="get" action="">
                     <div class="mb-3 col-md-12">
                         <div class="input-group">
                             <input type="text" class="form-control" name="nama_perumahan" value="{{ request()->get('nama_perumahan') }}" placeholder="Ketik nama perumahan">
+                            <input name="developer_id" type="hidden" value="{{ $developerId; }}">
                             <button class="btn btn-primary" type="submit">Cari Perumahan</button>
                         </div>
                     </div>
@@ -68,8 +69,9 @@
                                 <td>{{ $perumahan->kampung; }}</td>
                                 <td>{{ $perumahan->alamat; }}</td>
                                 <td class="table-action">
-                                    <a href="{{ route('developer.editPerumahanDeveloper', ['id'=> $perumahan->id]) }}" class="action-icon edit" title="edit"> <i class="mdi mdi-pencil"></i></a>
-                                    <a href="{{ route('developer.deletePerumahanDeveloper', ['id'=> $perumahan->id]) }}" class="action-icon delete" title="delete" > <i class="mdi mdi-delete"></i></a>
+                                    <input name="id[]" type="hidden" value="{{ $perumahan->id; }}">
+                                    <a href="javascript:void(0);" class="action-icon edit" title="edit"> <i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon delete" title="delete" > <i class="mdi mdi-delete"></i></a>
                                 </td>
                             </tr>
                         @empty

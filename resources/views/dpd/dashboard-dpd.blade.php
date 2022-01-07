@@ -1,4 +1,4 @@
-@extends('dpd.layouts.dash-dpd-layout')
+@extends('dpd.layouts.dash-dpd-layout-horizontal')
 @section('title','Konsultan Properti PT. Mitra Guntur Sarana')
 
 @section('content')
@@ -25,7 +25,7 @@
     <div class="col-12">
         <div class="card widget-flat">
             <div class="card-body">
-                Selamat datang perwakilan DPD {{ Auth::user()->name }}
+                Selamat datang {{ Auth::user()->name }}
             </div> <!-- end card-body-->
         </div> <!-- end card-->
     </div> <!-- end col-->

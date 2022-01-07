@@ -1,4 +1,4 @@
-@extends('developer.layouts.dash-developer-layout')
+@extends('developer.layouts.dash-developer-layout-horizontal')
 @section('title','Konsultan Properti PT. Mitra Guntur Sarana')
 
 @section('content')

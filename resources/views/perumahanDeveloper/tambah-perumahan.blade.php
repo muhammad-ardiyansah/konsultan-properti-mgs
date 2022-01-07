@@ -13,7 +13,7 @@
         @endphp
 
 
-        <form id="perumahan-developer-form"  method="POST" action="{{ route('developer.simpanPerumahanDeveloper') }}" class="form-horizontal {{ $errors->any() ? 'needs-validation was-validated' : '' }}" novalidate>
+        <form id="perumahan-developer-form"  method="POST" action="" class="form-horizontal {{ $errors->any() ? 'needs-validation was-validated' : '' }}" novalidate>
         @csrf
             <div class="card ribbon-box">
                 <div class="card-body">
@@ -133,7 +133,11 @@
                 <div class="card-body">
                     <div class="justify-content-end row">
                         <div class="col-9">
-                            <input name="developer_id" type="hidden" value="{{ $developer->id; }}">                        
+                            <input name="developer_id" type="hidden" value="{{ $developerId; }}">
+                            <input name="url_tambah" type="hidden" value="{{ $urlTambah }}">
+                            <input name="url_list" type="hidden" value="{{ $urlList }}">
+                            <input name="is_ajax" type="hidden" value="1">     
+                            <input name="validation_errors" id="validation_errors"  type="hidden" value="{{ $errors->any() ? 1 : '' }}">                   
                             <button type="Submit" class="btn btn-primary">Simpan</button>
                             <button type="Button" id="kembali" class="btn btn-warning">Kembali</button>
                         </div>

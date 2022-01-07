@@ -126,7 +126,7 @@
                                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                                     <ul class="navbar-nav">
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle arrow-none" href="{{ route('konsultan.dashboard') }}" id="topnav-dashboards" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a class="nav-link dropdown-toggle arrow-none" href="{{ route('developer.dashboard') }}" id="topnav-dashboards" role="button" aria-haspopup="true" aria-expanded="false">
                                                 <i class="uil-home-alt me-1"></i>Beranda
                                             </a>
                                         </li>
@@ -149,7 +149,7 @@
                                                         Perumahan <div class="arrow-down"></div>
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="topnav-perumahan">
-                                                        <a href="apps-email-inbox.html" class="dropdown-item">List Perumahan</a>
+                                                        <a href="{{ route('developer.listPerumahanDeveloper') }}" class="dropdown-item">List Perumahan</a>
                                                     </div>
                                                 </div>                                                
                                             </div>
