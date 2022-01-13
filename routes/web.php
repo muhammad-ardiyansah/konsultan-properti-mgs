@@ -153,6 +153,7 @@ Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth','Preven
     Route::post('deleteRekeningKonsultan',[RekeningController::class,'deleteRekeningKonsultan'])->name('konsultan.deleteRekeningKonsultan');    
 
     Route::get('indexInvoiceKonsultan',[InvoiceController::class,'indexInvoiceKonsultan'])->name('konsultan.indexInvoiceKonsultan');
+    Route::get('tambahInvoiceKonsultan',[InvoiceController::class,'tambahInvoiceKonsultan'])->name('konsultan.tambahInvoiceKonsultan');
     Route::get('invoicePageKonsultan',[InvoiceController::class,'invoicePageKonsultan'])->name('konsultan.invoicePageKonsultan');
 
 

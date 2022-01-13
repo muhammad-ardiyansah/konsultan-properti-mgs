@@ -32,6 +32,104 @@
                         <form id="cari-invoice" name="cari-invoice" method="get" action="{{ route('konsultan.indexInvoiceKonsultan') }}">
                             
                             <div class="row">
+
+                                <div class="col-lg-6 col-xl-6">                                
+    
+                                    <div class="mb-3">
+                                        <label for="no_invoice" class="form-label">No. Invoice</label>
+                                        <input type="text" name="no_invoice" id="no_invoice" class="form-control" value="{{ request()->get('no_invoice') }}">
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-6 col-xl-6">                                
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Periode Invoice</label>
+                                        <div id="reportrange" class="form-control" data-toggle="date-picker-range" data-target-display="#selectedPeriodeInvoiceValue"  data-cancel-class="btn-light">
+                                            <i class="mdi mdi-calendar"></i>&nbsp;
+                                            <span id="selectedPeriodeInvoiceValue">{{ request()->get('periode_invoice') }}</span> <i class="mdi mdi-menu-down"></i>
+                                            <input name="periode_invoice" id="periode_invoice" type="hidden" value="{{ request()->get('periode_invoice') }}">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-12 col-xl-12">                                
+
+                                    <label for="approval" class="form-label mb-2">Status Konfirmasi Bayar</label>
+                                    <div class="mt mb-3">
+                                        <div class="row">
+
+                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="status_konfirmasi_bayar" name="status_konfirmasi_bayar" class="form-check-input" value="0" @if (request()->get('status_konfirmasi_bayar')==0) checked @endif>
+                                                    <label class="form-check-label" for="customRadio3">Semua Data</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="status_konfirmasi_bayar" name="status_konfirmasi_bayar" class="form-check-input" value="1" @if (request()->get('status_konfirmasi_bayar')==1) checked @endif >
+                                                    <label class="form-check-label" for="customRadio4">Belum Dikonfirmasi</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="status_konfirmasi_bayar" name="status_konfirmasi_bayar" class="form-check-input" value="2" @if (request()->get('status_konfirmasi_bayar')==2) checked @endif >
+                                                    <label class="form-check-label" for="customRadio4">Sudah Dikonfirmasi</label>
+                                                </div>      
+                                            </div>
+
+                                        </div>                       
+                                    </div>                                
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-12 col-xl-12">                                
+
+                                    <label for="approval" class="form-label mb-2">Status Bayar</label>
+                                    <div class="mt mb-3">
+                                        <div class="row">
+
+                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="status_bayar" name="status_bayar" class="form-check-input" value="0" @if (request()->get('status_bayar')==0) checked @endif>
+                                                    <label class="form-check-label" for="customRadio3">Semua Data</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="status_bayar" name="status_bayar" class="form-check-input" value="1" @if (request()->get('status_bayar')==1) checked @endif >
+                                                    <label class="form-check-label" for="customRadio4">Belum Dibayar</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="status_bayar" name="status_bayar" class="form-check-input" value="2" @if (request()->get('status_bayar')==2) checked @endif >
+                                                    <label class="form-check-label" for="customRadio4">Sudah Dibayar</label>
+                                                </div>      
+                                            </div>
+
+                                        </div>                       
+                                    </div>                                
+
+                                </div>
+
+                            </div>                             
+
+                            <div class="row mt-3">
                                 
                                 <div class="col-lg-4 col-xl-4">
 
@@ -76,7 +174,7 @@
                                 
                             </div>    
 
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="col-lg-4 col-xl-4">                                
 
                                     <div class="mb-3">
@@ -105,79 +203,17 @@
                                 </div>
                                 <div class="col-lg-4 col-xl-4">                                
                                 
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <label class="form-label">Periode Pengajuan</label>
                                         <div id="reportrange" class="form-control" data-toggle="date-picker-range" data-target-display="#selectedValue"  data-cancel-class="btn-light">
                                             <i class="mdi mdi-calendar"></i>&nbsp;
                                             <span id="selectedValue">{{ request()->get('periode_pengajuan') }}</span> <i class="mdi mdi-menu-down"></i>
                                             <input name="periode_pengajuan" id="periode_pengajuan" type="hidden" value="{{ request()->get('periode_pengajuan') }}">
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-lg-12 col-xl-12">                                
-
-                                    <label for="approval" class="form-label">Status Invoice</label>
-                                    <div class="mt mb-3">
-                                        <div class="row">
-
-                                            <div class="col-lg-4 mb-2">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="radio" id="status_invoice" name="status_invoice" class="form-check-input" value="0" @if (request()->get('status_invoice')==0) checked @endif>
-                                                    <label class="form-check-label" for="customRadio3">Semua Data</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4 mb-2">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="radio" id="status_invoice" name="status_invoice" class="form-check-input" value="1" @if (request()->get('status_invoice')==1) checked @endif >
-                                                    <label class="form-check-label" for="customRadio4">Belum Dibuat</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4 mb-2">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="radio" id="status_invoice" name="status_invoice" class="form-check-input" value="2" @if (request()->get('status_invoice')==2) checked @endif >
-                                                    <label class="form-check-label" for="customRadio4">Sudah Dibuat</label>
-                                                </div>      
-                                            </div>
-
-                                        </div>                       
-                                    </div>                                
-
-                                </div>
-
-                            </div>    
-
-                            <div class="row">
-
-                                <div class="col-lg-6 col-xl-6">                                
-    
-                                    <div class="mb-3">
-                                        <label for="no_invoice" class="form-label">No. Invoice</label>
-                                        <input type="text" name="no_invoice" id="no_invoice" class="form-control" value="{{ request()->get('no_invoice') }}">
-                                    </div>
-
-                                </div>
-
-                                <div class="col-lg-6 col-xl-6">                                
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Periode Invoice</label>
-                                        <div id="reportrange" class="form-control" data-toggle="date-picker-range" data-target-display="#selectedPeriodeInvoiceValue"  data-cancel-class="btn-light">
-                                            <i class="mdi mdi-calendar"></i>&nbsp;
-                                            <span id="selectedPeriodeInvoiceValue">{{ request()->get('periode_invoice') }}</span> <i class="mdi mdi-menu-down"></i>
-                                            <input name="periode_invoice" id="periode_invoice" type="hidden" value="{{ request()->get('periode_invoice') }}">
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
+                            </div>   
 
                             <div class="row">
                                 <div class="col-12 text-end">
@@ -224,6 +260,11 @@
                             </form>         
 
                         </div>
+                        <div class="col-sm-12 col-md-6 text-end">
+                            <a href="{{ route('konsultan.tambahInvoiceKonsultan') }}" class="btn btn-primary btn-m ms-3"><i class="mdi mdi-plus"></i> Buat Invoice Baru</a>
+                        </div>
+
+
                     </div>                
 
 
@@ -232,18 +273,20 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>No. Invoice</th>
+                                    <th>Tanggal Invoice</th>
                                     <th>@sortablelink('kode_pengajuan', 'Kode Pengajuan')</th>
                                     <th>Pengajuan DPD Apersi</th>
                                     <th>Nama Developer</th>
                                     <th>@sortablelink('perumahan_developer.nama_perumahan', 'Nama Perumahan')</th>
-                                    <th>Status Terakhir</th>
-                                    <th>@sortablelink('timestamp_pengajuan', 'Tanggal Pengajuan')</th>
-                                    <th>No. Invoice</th>
-                                    <th>Tanggal Invoice</th>
+                                    <th>Blok Rumah</th>
+                                    <th>Status Bayar</th>
+                                    <th>Tanggal</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {{--
                                 @forelse ($pengajuanDevelopers as $key => $pengajuan) 
                                     <tr>
                                         <td>{{ $pengajuanDevelopers->firstItem() + $key }}</td>
@@ -263,12 +306,13 @@
                                     <tr>
                                         <td colspan="9"> <div class="text-center">Tidak ada data</div></td>
                                     </tr>
-                                @endforelse                        
+                                @endforelse
+                                --}}                        
                             </tbody>
                         </table>
                     </div>
                     <div class="row mt-3">    
-                        {{ $pengajuanDevelopers->links('vendor.pagination.custom') }}
+                        {{-- $pengajuanDevelopers->links('vendor.pagination.custom') --}}
                     </div>
                 </div> <!-- end card-body-->
             </div> <!-- end card-->

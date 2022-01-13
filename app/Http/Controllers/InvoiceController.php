@@ -14,7 +14,7 @@ use App\Models\Pengajuan_developer_detail;
 class InvoiceController extends Controller
 {
     
-    public function indexInvoiceKonsultan(Request $request) {
+    public function indexInvoiceKonsultanOld(Request $request) {
         
         // $input = $request->all();        
         // return $input;
@@ -150,6 +150,68 @@ class InvoiceController extends Controller
             'perPageLists'
         ));
     }  
+
+    public function indexInvoiceKonsultan(Request $request) {
+
+        // $input = $request->all();        
+        // return $input;
+
+        $provinces = Province::pluck('name', 'code');
+        $developers = Developer::pluck('nama_perusahaan', 'id');
+        $perumahanDevelopers = Perumahan_developer::where('developer_id', $request->developer_id)
+        ->pluck('nama_perumahan', 'id');
+
+        // $perPageLists = collect([
+        //     ['id' => 1, 'per_page' => '1'],
+        //     ['id' => 2, 'per_page' => '2'],
+        //     ['id' => 3, 'per_page' => '3'],
+        // ])->pluck('per_page', 'id');
+        
+        $perPageLists = collect([
+            // ['id' => 5, 'per_page' => '5'],
+            ['id' => 10, 'per_page' => '10'],
+            ['id' => 25, 'per_page' => '25'],
+            ['id' => 50, 'per_page' => '50'],
+            ['id' => 100, 'per_page' => '100'],
+        ])->pluck('per_page', 'id');
+
+
+
+        return view('invoice.index-invoice-konsultan', compact(
+            // 'developerId',
+            // 'pengajuanDevelopers',
+            'provinces',
+            'developers',
+            'perumahanDevelopers',
+            'perPageLists'
+        ));
+
+
+    }
+
+    public function tambahInvoiceKonsultan(Request $request) {
+
+        $isPengajuanFound = false;
+        $pengajuanDeveloper = [];
+        $pengajuanDeveloperDetails = [];
+        if (isset($request->kode_pengajuan)) {
+            $pengajuanDeveloper = Pengajuan_developer::where('kode_pengajuan', $request->kode_pengajuan)->first();
+            // return $pengajuanDeveloper;
+            // if ($pengajuanDeveloper->count() > 0) {
+            if (!empty($pengajuanDeveloper)) {
+                $pengajuanDeveloperDetails = Pengajuan_developer_detail::where('pengajuan_developer_id', $pengajuanDeveloper->id)->get();
+                $isPengajuanFound = true;
+            }
+        }    
+
+        return view('invoice.tambah-invoice-konsultan', compact(
+            'isPengajuanFound',
+            'pengajuanDeveloper',
+            'pengajuanDeveloperDetails',
+        )
+    );
+
+    }
 
     public function invoicePageKonsultan(Request $request) {
 
