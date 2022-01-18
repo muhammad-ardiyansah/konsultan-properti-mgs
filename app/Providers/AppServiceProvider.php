@@ -42,8 +42,16 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo \Carbon\Carbon::parse($expression)->translatedFormat('d-M-Y H:i:s') ?>";
         });
 
+        Blade::directive('format_tgl_dMY', function ( $expression ) {
+            return "<?php echo \Carbon\Carbon::parse($expression)->translatedFormat('d-M-Y') ?>";
+        });
+
         Blade::directive('format_rupiah_dengan_rp', function ( $expression ) { 
             return "Rp. <?php echo number_format($expression,0,',','.'); ?>"; 
+        });
+
+        Blade::directive('format_rupiah_tanpa_rp', function ( $expression ) { 
+            return "<?php echo number_format($expression,0,',','.'); ?>"; 
         });
 
     }

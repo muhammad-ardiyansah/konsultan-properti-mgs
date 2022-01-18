@@ -95,10 +95,12 @@ class Pengajuan_developer extends Model implements Auditable
         return $this->belongsTo(Pengawas::class, 'pengawas_id', 'id')->withDefault();
     }
 
-    public function invoice_header()
+    public function invoice_headers()
     {
         // return $this->hasMany(Template_komponen_pemeriksaan::class, 'tlu_master_template_id', 'id');
-        return $this->hasOne(Invoice_header::class)->withDefault();
+        // return $this->hasOne(Invoice_header::class)->withDefault();
+        return $this->hasMany(invoice_header::class)->withDefault();
+
     }
 
 }

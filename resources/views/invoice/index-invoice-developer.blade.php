@@ -291,7 +291,6 @@
                                     <th>@sortablelink('invoice_due_date', 'Invoice Due Date')</th>
                                     <th>Kode Pengajuan</th>
                                     <th>Pengajuan DPD Apersi</th>
-                                    <th>Nama Developer</th>
                                     <th>@sortablelink('perumahan_developer.nama_perumahan', 'Nama Perumahan')</th>
                                     <th>Blok Rumah dlm Invoice</th>
                                     <th>Status Bayar</th>
@@ -309,13 +308,12 @@
                                         <td>@format_tgl_dMY($invoice->invoice_due_date)</td>
                                         <td>{{ $invoice->pengajuan_developer->kode_pengajuan }}</td>
                                         <td>{{ $invoice->pengajuan_developer->province_apersi->name; }}</td>
-                                        <td>{{ $invoice->pengajuan_developer->developer->nama_perusahaan; }}</td>
                                         <td>{{ $invoice->pengajuan_developer->perumahan_developer->nama_perumahan; }}</td>
                                         <td>{{ $invoice->blok_invoice }}</td>
                                         <td></td>
                                         <td></td>
                                         <td class="table-action">
-                                            <a href="{{ route('konsultan.viewInvoiceKonsultan', ['id' => $invoice->id]) }}" class="action-icon view" title="Lihat invoice"> <i class="mdi mdi-eye"></i></a>
+                                            <a href="{{ route('developer.viewInvoiceDeveloper', ['id' => $invoice->id]) }}" class="action-icon view" title="Lihat invoice"> <i class="mdi mdi-eye"></i></a>
                                         </td>
                                     </tr>
                                 @empty

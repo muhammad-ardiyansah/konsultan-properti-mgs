@@ -509,7 +509,7 @@ window.addEventListener('DOMContentLoaded', function() {
            
            $("input:checkbox[name=blok_rumah_chk_box]").prop('checked', $(this).prop('checked'));
 
-       });        
+        });        
 
         $('#jalankan-aksi').submit(function() {    
 

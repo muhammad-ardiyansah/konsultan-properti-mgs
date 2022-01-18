@@ -10,7 +10,8 @@
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Invoice</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('konsultan.indexInvoiceKonsultan') }}">List Invoice</a></li>
-                    <li class="breadcrumb-item active">Tambah Invoice</li>
+                    <li class="breadcrumb-item"><a href="{{ route('konsultan.viewInvoiceKonsultan', ['id' => $invoiceHeader->id]) }}">View Invoice</a></li>
+                    <li class="breadcrumb-item active">Edit Invoice</li>
                 </ol>
             </div>
             <h4 class="page-title">Tambah Invoice</h4>
@@ -18,30 +19,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card widget-flat">
-            <div class="card-body">
-                <form id="tampilkan-pengajuan" name="tampilkan-pengajuan" method="get" action="{{ route('konsultan.tambahInvoiceKonsultan') }}">
-
-                    <div class="row mb-3">
-                        <label for="kode_pengajuan" class="col-lg-3 col-xl-3 col-form-label">Masukkan Kode Pengajuan</label>
-                        <div class="col-lg-9 col-xl-9">
-                            <input type="text" class="form-control" id="kode_pengajuan" name="kode_pengajuan" value="{{ request()->get('kode_pengajuan') }}">
-                        </div>
-                    </div>      
-                    <div class="row">          
-                        <div class="col-lg-3 col-xl-3"></div>
-                        <div class="col-lg-9 col-xl-9 text-end">          
-                            <button type="Submit" id="tampilkan" class="btn btn-success"><i class="mdi mdi-post"></i> Tampilkan</button>
-                        </div>
-                    </div>
-
-                </form>
-            </div> <!-- end card-body-->
-        </div> <!-- end card-->
-    </div> <!-- end col-->
-</div>
 
 @if ($errors->any())                        
     <div class="alert alert-danger" role="alert">
@@ -71,9 +48,6 @@
 <div class="row">
     <div class="col-12">
 
-        @if ($isKodePengajuanWasSet)
-            
-            @if ($isPengajuanExist)
 
                 <div class="accordion" id="accordionExample">
                     <div class="card mb-1">
@@ -423,7 +397,7 @@
 
                 </div>
 
-                <form id="tambah-invoice" name="tambah-invoice" method="post" action="{{ route('konsultan.simpanInvoiceKonsultan') }}" class="{{ $errors->any() ? 'needs-validation was-validated' : '' }}" novalidate>
+                <form id="update-invoice" name="update-invoice" method="get" action="{{ route('konsultan.editInvoiceKonsultan', ['id' => $invoiceHeader->id]) }}" class="{{ $errors->any() ? 'needs-validation was-validated' : '' }}" novalidate>
                 @csrf    
                     <div class="card ribbon-box">
                         <div class="card-body">
@@ -433,77 +407,77 @@
                                 
                                 @php
 
-                                    $oldNoInvoiceValue = old('no_invoice');
+                                    $oldNoInvoiceValue = old('no_invoice', $invoiceHeader->no_invoice);
                                     $msgErrNoInvoice = "";
                                     if ($errors->has('no_invoice') && !empty($oldNoInvoiceValue)) {
                                         $msgErrNoInvoice = "\"".$oldNoInvoiceValue."\"";
                                         $oldNoInvoiceValue = "";
                                     }                    
 
-                                    $oldNamaPerusahaanValue = old('nama_perusahaan', $pengajuanDeveloper->developer->nama_perusahaan);
+                                    $oldNamaPerusahaanValue = old('nama_perusahaan', $invoiceHeader->nama_perusahaan);
                                     $msgErrNamaPerusahaan = "";
                                     if ($errors->has('nama_perusahaan') && !empty($oldNamaPerusahaanValue)) {
                                         $msgErrNamaPerusahaan = "\"".$oldNamaPerusahaanValue."\"";
                                         $oldNamaPerusahaanValue = "";
                                     }
 
-                                    $oldNoTelponValue = old('no_telpon', $pengajuanDeveloper->developer->no_hp);
+                                    $oldNoTelponValue = old('no_telpon', $invoiceHeader->no_telpon);
                                     $msgErrNoTelpon = "";
                                     if ($errors->has('no_telpon') && !empty($oldNoTelponValue)) {
                                         $msgErrNoTelpon = "\"".$oldNoTelponValue."\"";
                                         $oldNoTelponValue = "";
                                     }
 
-                                    $oldNamaValue = old('nama', $pengajuanDeveloper->developer->nama_direktur);
+                                    $oldNamaValue = old('nama', $invoiceHeader->nama);
                                     $msgErrNama = "";
                                     if ($errors->has('nama') && !empty($oldNamaValue)) {
                                         $msgErrNama = "\"".$oldNamaValue."\"";
                                         $oldNamaValue = "";
                                     }                            
 
-                                    $oldAlamatValue = old('alamat', $pengajuanDeveloper->developer->alamat);
+                                    $oldAlamatValue = old('alamat', $invoiceHeader->alamat);
                                     $msgErrAlamat = "";
                                     if ($errors->has('alamat') && !empty($oldAlamatValue)) {
                                         $msgErrAlamat = "\"".$oldAlamatValue."\"";
                                         $oldAlamatValue = "";
                                     }
 
-                                    $oldNpwpValue = old('npwp');
+                                    $oldNpwpValue = old('npwp', $invoiceHeader->npwp);
                                     $msgErrNpwp = "";
                                     if ($errors->has('npwp') && !empty($oldNpwpValue)) {
                                         $msgErrNpwp = "\"".$oldNpwpValue."\"";
                                         $oldNpwpValue = "";
                                     }
 
-                                    $oldKtpnikValue = old('ktp_nik');
+                                    $oldKtpnikValue = old('ktp_nik', $invoiceHeader->ktp_nik);
                                     $msgErrKtpnik = "";
                                     if ($errors->has('ktp_nik') && !empty($oldKtpnikValue)) {
                                         $msgErrKtpnik = "\"".$oldKtpnikValue."\"";
                                         $oldKtpnikValue = "";
                                     }
 
-                                    $oldEmailValue = old('email');
+                                    $oldEmailValue = old('email', $invoiceHeader->email);
                                     $msgErrEmail = "";
                                     if ($errors->has('email') && !empty($oldEmailValue)) {
                                         $msgErrEmail = "\"".$oldEmailValue."\"";
                                         $oldEmailValue = "";
                                     }
 
-                                    $oldReferensiValue = old('referensi');
+                                    $oldReferensiValue = old('referensi', $invoiceHeader->referensi);
                                     $msgErrReferensi = "";
                                     if ($errors->has('referensi') && !empty($oldReferensiValue)) {
                                         $msgErrReferensi = "\"".$oldReferensiValue."\"";
                                         $oldReferensiValue = "";
                                     }
 
-                                    $oldNoReferensiValue = old('no_referensi');
+                                    $oldNoReferensiValue = old('no_referensi', $invoiceHeader->no_referensi);
                                     $msgErrNoReferensi = "";
                                     if ($errors->has('no_referensi') && !empty($oldNoReferensiValue)) {
                                         $msgErrNoReferensi = "\"".$oldNoReferensiValue."\"";
                                         $oldNoReferensiValue = "";
                                     }
 
-                                    $oldKeteranganValue = old('keterangan');
+                                    $oldKeteranganValue = old('keterangan', $invoiceHeader->keterangan);
                                     $msgErrKeterangan = "";
                                     if ($errors->has('keterangan') && !empty($oldKeteranganValue)) {
                                         $msgErrKeterangan = "\"".$oldKeteranganValue."\"";
@@ -691,99 +665,99 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
+                                <div class="row mb-4">
                                     <label for="jml_blok_rumah_disetujui" class="col-lg-3 col-xl-3 col-form-label">Jumlah yang disetujui</label>
                                     <div class="col-lg-9 col-xl-9">
                                         <input type="text" class="form-control" id="jml_blok_rumah_disetujui" name="jml_blok_rumah_disetujui" disabled value="{{ $jmlBlokRumahDisetujui }}">
                                     </div>
                                 </div>
 
+                                {{--
                                 <div class="row mb-4">
                                     <label for="harga_jasa" class="col-lg-3 col-xl-3 col-form-label">Harga jasa per unit (Rp.)</label>
                                     <div class="col-lg-4 col-xl-4">
                                         <input type="text" class="form-control" id="harga_jasa" name="harga_jasa" placeholder="" @error('harga_jasa') required @enderror value="" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true">
                                         @error('harga_jasa')
                                             <div class="invalid-feedback">
-                                                {{-- $msgAddErrHargaJualPerUnit." ".$message --}}
+                                                $msgAddErrHargaJualPerUnit." ".$message 
                                             </div>
                                         @enderror
                                     </div>
                                 </div>
 
-                                @if ($pengajuanDeveloperDetails->count() > 0)
-
-                                    <div class="row mb-3">
-                                        <div class="col-lg-3 col-xl-3"></div>
-                                        <div class="col-lg-6 col-xl-6">
-                                            <div class="form-check form-checkbox-success mb-2">
-                                                <input type="checkbox" class="form-check-input" name="pilih_semua" @if (old('pilih_semua')) checked @endif value="1">
-                                                <label class="form-check-label" for="customCheckcolor2">Pilih Semua</label>
-                                            </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-lg-3 col-xl-3"></div>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <div class="form-check form-checkbox-success mb-2">
+                                            <input type="checkbox" class="form-check-input" name="pilih_semua" @if (old('pilih_semua')) checked @endif value="1">
+                                            <label class="form-check-label" for="customCheckcolor2">Pilih Semua</label>
                                         </div>
                                     </div>
+                                </div>
+                                --}}
 
-                                    <div class="row mb-3">
+                                <div class="row mb-3">
 
-                                        @php
-                                            $index = 0;
-                                        @endphp
+                                    @php
+                                        $index = 0;
+                                    @endphp
 
-                                        @foreach ($pengajuanDeveloperDetails as $data)
-                                        
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+                                    @foreach ($invoiceDetails as $data)
+                                    
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-7 col-md-6 col-lg-6 col-xl-6">
-                                                        <div class="form-check form-checkbox-success mb-2">
-                                                            <input type="checkbox" class="form-check-input blok_rumah_chk_box" name="blok_rumah_chk_box[]" value="{{ $data->id }}" @if (old('blok_rumah_inv.'.$index)) checked @endif>
-                                                            <label class="form-check-label" for="customCheckcolor2">
-                                                                {{ $data->blok_rumah }} 
-                                                                @if ($denganApersi) 
-                                                                
-                                                                    @if ($data->tlu_sts_peng_blk_rmh_id == 21)
-                                                                        {{ '(Ditolak DPD)' }}
-                                                                    @elseif ($data->tlu_sts_peng_blk_rmh_id == 31)
-                                                                        {{ '(Disetujui DPD)' }}
-                                                                    @else
-                                                                        {{ '(Menunggu persetujuan DPD)' }}
-                                                                    @endif
-                                                                
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-7 col-md-6 col-lg-6 col-xl-6">
+                                                    <div class="form-check form-checkbox-success mb-2">
+                                                        <input type="checkbox" class="form-check-input blok_rumah_chk_box" name="blok_rumah_chk_box[]" value="{{ $data->id }}" @if (old('blok_rumah_inv.'.$index, $data->id)) checked @endif>
+                                                        <label class="form-check-label" for="customCheckcolor2">
+                                                            {{ $data->pengajuan_developer_detail->blok_rumah }} 
+                                                            @if ($denganApersi) 
+                                                            
+                                                                @if ($data->pengajuan_developer_detail->tlu_sts_peng_blk_rmh_id == 21)
+                                                                    {{ '(Ditolak DPD)' }}
+                                                                @elseif ($data->pengajuan_developer_detail->tlu_sts_peng_blk_rmh_id == 31)
+                                                                    {{ '(Disetujui DPD)' }}
                                                                 @else
-
-                                                                    @if ($data->tlu_sts_peng_blk_rmh_id == 67)
-                                                                        {{ '(Ditolak Konsultan)' }}
-                                                                    @elseif ($data->tlu_sts_peng_blk_rmh_id == 71)
-                                                                        {{ '(Disetujui Konsultan)' }}
-                                                                    @else
-                                                                        {{ '(Menunggu persetujuan Konsultan)' }}
-                                                                    @endif
-
+                                                                    {{ '(Menunggu persetujuan DPD)' }}
                                                                 @endif
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                                                            
+                                                            @else
 
-                                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                                                        <input type="text" @if (old('blok_rumah_inv.'.$index)) '' @else style="display: none;" @endif class="form-control harga_jasa_satuan" id="harga_jasa_satuan" name="harga_jasa_satuan[]" placeholder="" @error('harga_jasa_satuan.'.$index) required @enderror value="{{ old('harga_jasa_satuan.'.$index) }}" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true">
-                                                        @error('harga_jasa_satuan.'.$index)
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                        @enderror
-                                                    </div>                                        
-                                                    
+                                                                @if ($data->pengajuan_developer_detail->tlu_sts_peng_blk_rmh_id == 67)
+                                                                    {{ '(Ditolak Konsultan)' }}
+                                                                @elseif ($data->pengajuan_developer_detail->tlu_sts_peng_blk_rmh_id == 71)
+                                                                    {{ '(Disetujui Konsultan)' }}
+                                                                @else
+                                                                    {{ '(Menunggu persetujuan Konsultan)' }}
+                                                                @endif
+
+                                                            @endif
+                                                        </label>
+                                                    </div>
                                                 </div>
 
-                                            </div>  
+                                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                                                    <input type="text" @if (old('blok_rumah_inv.'.$index, $data->id)) '' @else style="display: none;" @endif class="form-control harga_jasa_satuan" id="harga_jasa_satuan" name="harga_jasa_satuan[]" placeholder="" @error('harga_jasa_satuan.'.$index) required @enderror value="{{ old('harga_jasa_satuan.'.$index, $data->harga_satuan) }}" data-toggle="input-mask" data-mask-format="000.000.000.000.000" data-reverse="true">
+                                                    @error('harga_jasa_satuan.'.$index)
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>                                        
+                                                
+                                            </div>
 
-                                        @php
-                                            $index++;
-                                        @endphp
+                                        </div>  
 
-                                        @endforeach
-                                    </div>
+                                    @php
+                                        $index++;
+                                    @endphp
 
-                                @endif
+                                    @endforeach
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -796,11 +770,11 @@
 
                             <div class="row">
                                 <div class="col-12 text-center">
+                                    <input name="id" type="hidden" value="{{ $invoiceHeader->id; }}">
                                     <input name="developer_id" type="hidden" value="{{ $pengajuanDeveloper->developer_id; }}">
                                     <input name="pengajuan_developer_id" type="hidden" value="{{ $pengajuanDeveloper->id; }}">
-                                    @if ($pengajuanDeveloperDetails->count() > 0)
-                                        <button type="button" id="simpan" class="btn btn-primary"><i class="mdi mdi-content-save"></i> Simpan</button>
-                                    @endif
+                                    {{-- <button type="button" id="update" class="btn btn-primary"><i class="mdi mdi-content-save"></i> Update</button> --}}
+                                    <button type="submit" id="update" class="btn btn-primary"><i class="mdi mdi-content-save"></i> Update</button>
                                 </div>
                             </div>                
 
@@ -808,16 +782,6 @@
                     </div> <!-- end card-->
 
                 </form>
-            @else            
-
-                <div class="alert alert-danger" role="alert">
-                    <i class="dripicons-wrong me-2"></i> Data pengajuan tidak ditemukan
-                </div>
-
-
-            @endif
-
-        @endif
 
 
     </div>

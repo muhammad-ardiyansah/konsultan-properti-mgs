@@ -657,6 +657,31 @@ class DeveloperController extends Controller
             )
         );        
 
+    } 
+    
+    
+    public function laporanPengajuan(Request $request) {
+
+        // $input = $request->all();
+        // return $input;
+
+        $pengajuanDeveloper = Pengajuan_developer::find($request->id);
+        // return $pengajuanDeveloper;
+        if (!empty($request->blok_rumah)) {
+            $tempBlokRumah =  str_replace(" ","",$request->blok_rumah);
+            $arrBlokFilter = explode(',', $tempBlokRumah);
+            $pengajuanDeveloperDetails = Pengajuan_developer_detail::where('pengajuan_developer_id', $pengajuanDeveloper->id)->whereIn('blok_rumah', $arrBlokFilter)->get();
+            // return $pengajuanDeveloperDetails;
+        }else{
+            $pengajuanDeveloperDetails = Pengajuan_developer_detail::where('pengajuan_developer_id', $pengajuanDeveloper->id)->get();
+            // return $pengajuanDeveloperDetails;
+        }
+        // return view('konsultan.laporan-pengajuan');
+        return view('developer.laporan-pengajuan', compact(
+            'pengajuanDeveloper',
+            'pengajuanDeveloperDetails'
+        ));    
+
     }    
 
 

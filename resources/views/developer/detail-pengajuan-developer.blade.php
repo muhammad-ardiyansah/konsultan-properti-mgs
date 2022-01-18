@@ -278,7 +278,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="persetujuan_pengajuan_blok_rumah" class="col-lg-6 col-xl-6 col-form-label">Status Persetujuan Pengajuan Blok Rumah</label>
+                            <label for="persetujuan_pengajuan_blok_rumah" class="col-lg-6 col-xl-6 col-form-label">Status Persetujuan Pengajuan Blok Rumah (<a href="{{ route('developer.laporanPengajuan', ['id' => $pengajuanDeveloper->id]) }}" target="_blank">Laporan</a>)</label>
                             <div class="col-lg-6 col-xl-6">
 
                             </div>

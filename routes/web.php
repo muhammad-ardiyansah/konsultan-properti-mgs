@@ -154,6 +154,9 @@ Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth','Preven
 
     Route::get('indexInvoiceKonsultan',[InvoiceController::class,'indexInvoiceKonsultan'])->name('konsultan.indexInvoiceKonsultan');
     Route::get('tambahInvoiceKonsultan',[InvoiceController::class,'tambahInvoiceKonsultan'])->name('konsultan.tambahInvoiceKonsultan');
+    Route::get('editInvoiceKonsultan',[InvoiceController::class,'editInvoiceKonsultan'])->name('konsultan.editInvoiceKonsultan');
+    Route::get('viewInvoiceKonsultan',[InvoiceController::class,'viewInvoiceKonsultan'])->name('konsultan.viewInvoiceKonsultan');
+    Route::post('simpanInvoiceKonsultan',[InvoiceController::class,'simpanInvoiceKonsultan'])->name('konsultan.simpanInvoiceKonsultan');
     Route::get('invoicePageKonsultan',[InvoiceController::class,'invoicePageKonsultan'])->name('konsultan.invoicePageKonsultan');
 
 
@@ -210,6 +213,13 @@ Route::group(['prefix'=>'developer', 'middleware'=>['isDeveloper','auth','Preven
     Route::post('simpanPengawas',[PengawasController::class,'simpan'])->name('developer.simpanPengawas');
     Route::get('getPengawas',[PengawasController::class,'getPengawas'])->name('developer.getPengawas');
     Route::get('getPenanggungJawabPengawas',[PengawasController::class,'getPenanggungJawabPengawas'])->name('developer.getPenanggungJawabPengawas');
+
+    Route::get('indexInvoiceDeveloper',[InvoiceController::class,'indexInvoiceDeveloper'])->name('developer.indexInvoiceDeveloper');
+    Route::get('viewInvoiceDeveloper',[InvoiceController::class,'viewInvoiceDeveloper'])->name('developer.viewInvoiceDeveloper');
+    Route::get('tambahKonfirmasiDeveloper',[InvoiceController::class,'tambahKonfirmasiDeveloper'])->name('developer.tambahKonfirmasiDeveloper');
+    Route::post('simpanKonfirmasiDeveloper',[InvoiceController::class,'simpanKonfirmasiDeveloper'])->name('developer.simpanKonfirmasiDeveloper');
+
+    Route::get('laporanPengajuan',[DeveloperController::class,'laporanPengajuan'])->name('developer.laporanPengajuan');
 
 
 });

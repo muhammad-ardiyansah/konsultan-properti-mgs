@@ -26,4 +26,13 @@ class Pengajuan_developer_detail extends Model implements Auditable
         return $this->belongsTo(Tlu_status_pengajuan_blok_rumah::class, 'tlu_sts_peng_blk_rmh_id', 'id')->withDefault();
     }
 
+    public function invoice_detail()
+    {
+        // return $this->hasMany(Template_komponen_pemeriksaan::class, 'tlu_master_template_id', 'id');
+        return $this->hasOne(Invoice_detail::class)->withDefault();
+        // return $this->hasMany(invoice_header::class)->withDefault();
+
+    }
+
+
 }

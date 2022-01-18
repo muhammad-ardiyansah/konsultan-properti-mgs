@@ -16,10 +16,13 @@ class CreateJurnalDevelopersTable extends Migration
         Schema::create('jurnal_developers', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+			$table->foreignId('developer_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('invoice_header_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('pembayaran_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('pengembalian_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->string('param', 30);
             $table->bigInteger('jumlah')->nullable();
+            $table->bigInteger('jumlah_rubah_jadi')->nullable();
 
             $table->timestamps();
         });

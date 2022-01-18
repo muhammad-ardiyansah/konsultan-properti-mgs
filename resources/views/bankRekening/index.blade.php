@@ -112,7 +112,7 @@ window.addEventListener('DOMContentLoaded', function() {
             // $('.modal-content-confirm').html(index);
             $('#confirm-value').val($(this).attr('href'));
             // $('.modal-content-confirm').html($('#confirm-value').val());
-            $('.modal-content-confirm').html('Apakah anda yakin akan menghapus data "'+ textDelete + '"');
+            $('.modal-content-confirm').html('Apakah anda yakin akan menghapus data '+ textDelete + ' ? ');
             $("#confirm-modal").modal("show");
         });
         

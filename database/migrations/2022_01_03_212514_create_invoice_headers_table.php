@@ -18,24 +18,25 @@ class CreateInvoiceHeadersTable extends Migration
 
             $table->foreignId('developer_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('pengajuan_developer_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('restrict');
-            $table->foreignId('tlu_no_rekening_id')->constrained()->onUpdate('cascade')->onDelete('restrict');     
             $table->string('no_invoice', 100);
             $table->string('nama_perusahaan');
-            $table->string('no_telpon');
+            $table->string('no_telpon')->nullable();
             $table->string('nama');
-            $table->text('alamat');
-            $table->string('npwp');
-            $table->string('ktp_nik');
-            $table->string('email');
-            $table->string('referensi');
-            $table->string('no_referensi');
+            $table->text('alamat')->nullable();
+            $table->string('npwp')->nullable();
+            $table->string('ktp_nik')->nullable();
+            $table->string('email')->nullable();
+            $table->string('referensi')->nullable();
+            $table->string('no_referensi')->nullable();
             $table->text('keterangan')->nullable();
-            $table->dateTime('timestamp_pembuatan', $precision = 0)->nullable();
-            $table->dateTime('timestamp_tenggat_waktu', $precision = 0)->nullable();
+            $table->string('blok_invoice')->nullable();
+            $table->date('invoice_date')->nullable();
+            $table->date('invoice_due_date')->nullable();
             $table->bigInteger('kode_unik')->nullable();
             $table->bigInteger('jumlah_tagihan')->nullable();
             $table->bigInteger('total_tagihan')->nullable();
-
+            $table->boolean('paid')->default(false);
+            $table->boolean('view_without_paid')->default(false);
             $table->timestamps();
         });
     }
