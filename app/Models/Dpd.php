@@ -21,4 +21,9 @@ class Dpd extends Model
         return $this->belongsToMany(User::class);
     }    
 
+    public function province()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code', 'code');
+    }
+
 }

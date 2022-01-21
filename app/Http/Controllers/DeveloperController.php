@@ -682,7 +682,8 @@ class DeveloperController extends Controller
             'pengajuanDeveloperDetails'
         ));    
 
-    }    
+    } 
 
+    
 
 }

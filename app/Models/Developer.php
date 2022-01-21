@@ -30,4 +30,9 @@ class Developer extends Model
         return $this->hasMany(Pengajuan_developer::class);
     }
 
+    public function dpd_apersi()
+    {
+        return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code', 'code')->withDefault();
+    }
+
 }

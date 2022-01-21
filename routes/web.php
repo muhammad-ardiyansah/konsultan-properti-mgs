@@ -159,6 +159,10 @@ Route::group(['prefix'=>'konsultan', 'middleware'=>['isKonsultan','auth','Preven
     Route::post('simpanInvoiceKonsultan',[InvoiceController::class,'simpanInvoiceKonsultan'])->name('konsultan.simpanInvoiceKonsultan');
     Route::get('invoicePageKonsultan',[InvoiceController::class,'invoicePageKonsultan'])->name('konsultan.invoicePageKonsultan');
 
+    Route::get('indexRegistrasiDeveloper',[konsultanController::class,'indexRegistrasiDeveloper'])->name('konsultan.indexRegistrasiDeveloper');
+    Route::get('tambahRegistrasiDeveloper',[konsultanController::class,'tambahRegistrasiDeveloper'])->name('konsultan.tambahRegistrasiDeveloper');    
+    Route::post('simpanRegistrasiDeveloper',[konsultanController::class,'simpanRegistrasiDeveloper'])->name('konsultan.simpanRegistrasiDeveloper');    
+
 
 });
 

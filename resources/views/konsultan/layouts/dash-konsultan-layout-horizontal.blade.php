@@ -172,7 +172,8 @@
                                                     <div class="dropdown-menu" aria-labelledby="topnav-perumahan">
                                                         <a href="{{ route('konsultan.listPerumahanDeveloper') }}" class="dropdown-item">List Perumahan</a>
                                                     </div>
-                                                </div>                                                
+                                                </div>     
+                                                <a href="{{ route('konsultan.indexRegistrasiDeveloper') }}" class="dropdown-item">Registrasi Developer</a>                                           
                                             </div>
                                         </li>
            
@@ -188,6 +189,8 @@
                                             </div>
                                         </li>
 
+
+                                        {{--
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pengaturan" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="uil-chart me-1"></i>Pengaturan <div class="arrow-down"></div>
@@ -206,6 +209,7 @@
                                                 </div>                                            
                                             </div>
                                         </li>
+                                        --}}
 
                                     </ul>
                                 </div>

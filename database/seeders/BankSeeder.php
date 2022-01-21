@@ -36,7 +36,7 @@ class BankSeeder extends Seeder
         Bank::insert($banks);        
 
         $bank = Bank::find(1);
-        $bank->users()->attach(40);                
+        $bank->users()->attach(7);                
 
     }
 }

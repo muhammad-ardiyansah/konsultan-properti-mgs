@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tlu_tipe_rumah;
+use App\Models\Dpd;
 use App\Models\Developer;
 use App\Models\Perumahan_developer;
 use Laravolt\Indonesia\Models\Province;
@@ -956,6 +957,90 @@ class KonsultanController extends Controller
         }else{
             return redirect()->route('konsultan.laporanPengajuan', ['id'=>$pengajuanDeveloperId, 'blok_rumah'=> $request->blok_rumah_filter]);
         }
+
+    }
+
+    public function indexRegistrasiDeveloper(Request $request) {
+
+        // $input = $request->all();
+        // return $input;
+
+        if (isset($request->active)) {
+            
+            if ($request->active=='developer') {
+                $developerTabActive = "active";
+                $userTabActive = "";
+            }else if ($request->active=='user') {    
+                $developerTabActive = "";
+                $userTabActive = "active";
+            }else{
+                $developerTabActive = "active";
+                $userTabActive = "";
+            }
+
+        }else{
+            $developerTabActive = "active";
+            $userTabActive = "";
+        }
+
+        $paginate = 1;
+        $dpds = Dpd::all();
+        $developers = Developer::pluck('nama_perusahaan', 'id');
+        // return $dpds;
+        if($developerTabActive) {
+            $datas = Developer::paginate($paginate)->withQueryString();
+            $datas->append(['active'=>'developer']);
+        }
+        if ($userTabActive) {   
+            $datas = User::where('role', 'DEVELOPER')->paginate($paginate)->withQueryString();
+        }
+
+        // return $datas;
+
+        return view('konsultan.index-registrasi-developer', compact(
+            'developerTabActive',
+            'userTabActive',
+            'datas',
+            'dpds',
+            'developers'
+        ));       
+
+    }    
+
+    public function tambahRegistrasiDeveloper() {
+
+        $provinces = Province::pluck('name', 'code');
+        return view('konsultan.tambah-registrasi-developer', [
+            'provinces' => $provinces,
+        ]);
+    
+    } 
+
+    public function simpanRegistrasiDeveloper(Request $request) {
+
+        $request->validate(
+            [
+                'nama_perusahaan' => 'required|unique:developers',
+                'nama_direktur'=>'required',
+                // 'no_kta_apersi'=> 'required',
+                // 'province_code'=>'required',      
+                'alamat'=>'required',        
+                'no_hp'=>'required|integer',
+                'email' => 'required|email|unique:developers',
+                
+            ], 
+            [
+                'nama_perusahaan.required' => 'Nama perusahaan harus diisi',
+                'nama_perusahaan.unique'=>'sudah terdaftar',
+                'nama_direktur.required' => 'Nama Direktur harus diisi',
+                // 'no_kta_apersi.required' => 'No. KTA Apersi harus diisi',
+                // 'province_code.required' => 'Asal DPD Apersi belum dipilih',
+                'alamat.required'=>'Alamat harus diisi',
+                'no_hp.required'=>'No. HP harus diisi',
+                'email.required'=>'Email harus diisi',
+                'email.unique'=>'sudah terdaftar',
+            ]
+        );
 
     }
 
