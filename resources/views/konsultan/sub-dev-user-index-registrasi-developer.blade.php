@@ -3,14 +3,14 @@
         <div class="ribbon ribbon-success float-start"><i class="mdi mdi-access-point me-1"></i>Pencarian</div>
         <h5 class="text-success float-end mt-0"><i class="mdi mdi-magnify-scan"></i></h5>
         <div class="ribbon-content">   
-            <form id="cari-user-developer" name="cari-user-developer" method="get" action="{{ route('konsultan.indexRegistrasiDeveloper', ['active'=>'user']) }}">
+            <form id="cari-user-developer" name="cari-user-developer" method="get" action="{{ route('konsultan.indexRegistrasiDeveloper') }}">
                 <div class="row">
 
                     <div class="col-lg-6 col-xl-6">   
                     
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" name="nama" id="nama" class="form-control" value="{{ request()->get('nama') }}">
+                            <input type="text" name="name" id="name" class="form-control" value="{{ request()->get('name') }}">
                         </div>                                
                         
                     </div>
@@ -46,7 +46,8 @@
 
                 <div class="row">
                     <div class="col-12 text-end">
-                        <input type="hidden" name="active" value="user">
+                        <input name="active" id="active" type="hidden" value="user">
+                        <input name="data_per_halaman" id="data_per_halaman" type="hidden" value="{{ request()->get('data_per_halaman') }}">
                         <a href="{{ route('konsultan.indexRegistrasiDeveloper', ['active'=>'user']) }}" class="btn btn-warning btn-m ms-3"> Reset</a>
                         <button type="Submit" class="btn btn-success"><i class="mdi mdi-magnify-scan"></i> Cari Data</button>
                     </div>
@@ -63,8 +64,30 @@
 
         <div class="row mb-3">
 
-            <div class="col-sm-12 col-md-12 text-end">
-                <a href="{{ route('konsultan.tambahRegistrasiDeveloper') }}" class="btn btn-primary btn-m ms-3"><i class="mdi mdi-plus"></i> Tambah User Login</a>
+            <div class="col-md-6 col-lg-6 col-xl-6">                    
+
+                <form class="form-horizontal">
+                    <div class="row ms-1">
+                        
+                        <label for="show" class="col-sm-12 col-md-12 col-lg-3 col-xl-3 col-form-label">Tampilkan</label>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+
+                            <select class="form-select" id="per_halaman_user" name="per_halaman_user">
+                                @foreach ($perPageLists as $id => $per_page)
+                                    <option value="{{ $id }}" {{ $id == request()->get('data_per_halaman') ? "selected" : "" }}>{{ $per_page }}</option>
+                                @endforeach
+                            </select>                                 
+
+                        </div>
+                        <label for="show" class="col-sm-12 col-md-12 col-lg-3 col-xl-4 col-form-label">data per halaman</label>
+
+                    </div>
+                </form>
+
+            </div>        
+
+            <div class="col-md-6 col-lg-6 col-xl-6 text-end">
+                <a href="{{ route('konsultan.tambahRegistrasiUserDeveloper') }}" class="btn btn-primary btn-m ms-3"><i class="mdi mdi-plus"></i> Tambah User Login</a>
             </div>
 
         </div>
@@ -74,11 +97,11 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama </th>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>@sortablelink('name', 'Nama User')</th>
+                        <th>@sortablelink('username', 'Username Login')</th>
+                        <th>Email User</th>
                         <th>Nama Developer</th>
-                        <th>Tgl Register</th>
+                        <th>@sortablelink('created_at', 'Tgl. Registrasi')</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -92,8 +115,8 @@
                             <td>{{ $data->developers->first()->nama_perusahaan; }}</td>
                             <td>@format_tgl_dMYHis($data->created_at)</td>
                             <td class="table-action">
-                                <a href="{{ route('konsultan.editRekeningKonsultan', ['id' => $data->id]) }}" class="action-icon edit" title="edit"> <i class="mdi mdi-pencil"></i></a>
-                                <a href="{{ route('konsultan.deleteRekeningKonsultan', ['id'=> $data->id]) }}" class="action-icon delete" title="delete" > <i class="mdi mdi-delete"></i></a>
+                                <a href="{{ route('konsultan.editRegistrasiUserDeveloper', ['id' => $data->id]) }}" class="action-icon edit" title="edit"> <i class="mdi mdi-pencil"></i></a>
+                                <a href="{{ route('konsultan.deleteRegistrasiUserDeveloper', ['id'=> $data->id]) }}" class="action-icon delete" title="delete" > <i class="mdi mdi-delete"></i></a>
                             </td>
                         </tr>
                     @empty

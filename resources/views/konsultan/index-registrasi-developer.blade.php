@@ -45,7 +45,7 @@
                         <div class="tab-pane show active" id="tab">
 
                             @if($developerTabActive)
-                                @include('konsultan.sub-dev-index-registrasi-developer', ['datas' => $datas, 'dpds' => $dpds])
+                                @include('konsultan.sub-dev-index-registrasi-developer', ['datas' => $datas, 'provinces' => $provinces])
                             @endif
 
                             @if($userTabActive)
@@ -56,11 +56,95 @@
                     </div>                                          
                 </div> <!-- end preview-->
 
-            </div>   
+            </div> 
 
+            <form method="post" name="form-delete" id="form-delete">
+            @csrf
+            </form>
+            @include('modals-dialog.modal-confirmation')
 
         </div>
     </div>
 
 </div>
+
+
+
 @endsection
+
+@push('scripts')
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    $(function () {
+    
+        var headers = {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }            
+        
+        $('#cari-developer').submit(function() {
+            // alert($('#selectedValue').text());    
+            $('#data_per_halaman').val($('#per_halaman_developer').val());
+            // return false;
+        });
+
+        $('#per_halaman_developer').on('change', function () {
+            // alert($(this).val());
+            $('#cari-developer').submit();
+        });
+
+        $('#cari-user-developer').submit(function() {
+            // alert($('#selectedValue').text());    
+            $('#data_per_halaman').val($('#per_halaman_user').val());
+            // return false;
+        });
+
+        $('#per_halaman_user').on('change', function () {
+            // alert($(this).val());
+            $('#cari-user-developer').submit();
+        });
+
+
+        $(document).on('click', ".delete", function(event) {
+            event.preventDefault();        
+            // alert('delete');
+            var title = "Konfirmasi penghapusan data";
+            var index = $(".delete").index(this);
+            var currentRow=$(this).closest("tr");
+            var textDelete=currentRow.find("td:eq(1)").text(); 
+            
+            $('.title-confirm').html(title);
+            // $('.modal-content-confirm').html(index);
+            $('#confirm-value').val($(this).attr('href'));
+            // $('.modal-content-confirm').html($('#confirm-value').val());
+            $('.modal-content-confirm').html('Apakah anda yakin akan menghapus '+ textDelete + ' ? ');
+            $("#confirm-modal").modal("show");
+        });
+        
+        $(document).on('click', "#confirm-yes", function(event) {
+            event.preventDefault();
+
+            // window.location.replace($('#confirm-value').val());
+
+            $('#form-delete').attr('action', $('#confirm-value').val());
+            $('#form-delete').submit();
+            // $.ajax({
+            //     url: $('#confirm-value').val(),
+            //     method: 'GET',
+            //     headers: headers,
+            //     success: function (response) {
+            //         $("#modal-content").empty();
+            //         $("#modal-content").html(response);                    
+
+            //     },
+            //     error: function(response) {
+            //         console.log('error = ' + response);   
+            //     }                
+            // })            
+        });
+    
+    });
+});    
+</script>
+
+@endpush

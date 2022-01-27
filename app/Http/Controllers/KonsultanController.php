@@ -983,26 +983,93 @@ class KonsultanController extends Controller
             $userTabActive = "";
         }
 
-        $paginate = 1;
-        $dpds = Dpd::all();
+        // $paginate = 1;
+        // $dpds = Dpd::all();
+        $provinces = Province::pluck('name', 'code');
         $developers = Developer::pluck('nama_perusahaan', 'id');
         // return $dpds;
+
+        // $perPageLists = collect([
+        //     ['id' => 1, 'per_page' => '1'],
+        //     ['id' => 2, 'per_page' => '2'],
+        //     ['id' => 3, 'per_page' => '3'],
+        // ])->pluck('per_page', 'id');
+        
+        $perPageLists = collect([
+            ['id' => 5, 'per_page' => '5'],
+            ['id' => 10, 'per_page' => '10'],
+            ['id' => 25, 'per_page' => '25'],
+            ['id' => 50, 'per_page' => '50'],
+            ['id' => 100, 'per_page' => '100'],
+        ])->pluck('per_page', 'id');        
+
+        DB::enableQueryLog();
+
         if($developerTabActive) {
-            $datas = Developer::paginate($paginate)->withQueryString();
-            $datas->append(['active'=>'developer']);
+        
+            $perPage = $perPageLists->first();
+            // print_r($perPage);
+            if (!empty($request->data_per_halaman)) {
+                $perPage = $request->data_per_halaman;
+            }            
+
+            
+            $datas = Developer::where([ 
+                [function ($query) use ($request) {
+    
+                    if (!empty($request->nama_developer)) {
+                        $query->where('nama_perusahaan', 'LIKE', '%'.$request->nama_developer.'%');
+                    }
+
+                    if (!empty($request->province_code)) {
+                        $query->where('province_code', $request->province_code);
+                    }                                                                
+                    
+                }]
+            ])->sortable()->paginate($perPage)->withQueryString();
+            // $datas->append(['active'=>'developer']);
+
         }
+        
         if ($userTabActive) {   
-            $datas = User::where('role', 'DEVELOPER')->paginate($paginate)->withQueryString();
+        
+            $perPage = $perPageLists->first();
+            // print_r($perPage);
+            if (!empty($request->data_per_halaman)) {
+                $perPage = $request->data_per_halaman;
+            }
+            $datas = User::where('role', 'DEVELOPER')
+            ->when(!empty($request->name), function ($query, $role) use ($request) {
+                $query->where('name', 'LIKE', '%'.$request->name.'%');
+            })->when(!empty($request->username), function ($query, $role) use ($request) {
+                $query->where('username', 'LIKE', '%'.$request->username.'%');
+            })->when(!empty($request->developer_id), function ($query, $role) use ($request) {
+
+                $query->whereHas('developers', function ($q) use ($request) {                
+    
+                    if (!empty($request->developer_id)) {
+                        $q->where('developer_id', $request->developer_id);
+                    }                
+       
+    
+                });
+
+            })->sortable()->paginate($perPage)->withQueryString();
+       
         }
 
         // return $datas;
+        // dd($pengajuanDevelopers);
+        // $quries = DB::getQueryLog();
+        // dd($quries);
 
         return view('konsultan.index-registrasi-developer', compact(
             'developerTabActive',
             'userTabActive',
             'datas',
-            'dpds',
-            'developers'
+            'provinces',
+            'developers',
+            'perPageLists'
         ));       
 
     }    
@@ -1010,38 +1077,243 @@ class KonsultanController extends Controller
     public function tambahRegistrasiDeveloper() {
 
         $provinces = Province::pluck('name', 'code');
-        return view('konsultan.tambah-registrasi-developer', [
-            'provinces' => $provinces,
-        ]);
+        return view('konsultan.tambah-registrasi-developer', compact(
+            'provinces'
+        ));
     
     } 
 
+    public function editRegistrasiDeveloper(Request $request) {
+
+        $developer = Developer::find($request->id);
+        $provinces = Province::pluck('name', 'code');
+        return view('konsultan.edit-registrasi-developer', compact(
+            'developer',
+            'provinces'
+        ));
+    
+    }
+
     public function simpanRegistrasiDeveloper(Request $request) {
+
+        // $input = $request->all();
+        // return $input;
 
         $request->validate(
             [
-                'nama_perusahaan' => 'required|unique:developers',
+                'nama_perusahaan' => 'required|unique:developers,nama_perusahaan,' . $request->id,
                 'nama_direktur'=>'required',
                 // 'no_kta_apersi'=> 'required',
                 // 'province_code'=>'required',      
                 'alamat'=>'required',        
-                'no_hp'=>'required|integer',
-                'email' => 'required|email|unique:developers',
+                'no_hp'=>'required',
+                'email' => 'required|email|unique:developers,email,' . $request->id,
                 
             ], 
             [
                 'nama_perusahaan.required' => 'Nama perusahaan harus diisi',
                 'nama_perusahaan.unique'=>'sudah terdaftar',
-                'nama_direktur.required' => 'Nama Direktur harus diisi',
+                'nama_direktur.required' => 'Nama direktur harus diisi',
                 // 'no_kta_apersi.required' => 'No. KTA Apersi harus diisi',
                 // 'province_code.required' => 'Asal DPD Apersi belum dipilih',
                 'alamat.required'=>'Alamat harus diisi',
                 'no_hp.required'=>'No. HP harus diisi',
                 'email.required'=>'Email harus diisi',
                 'email.unique'=>'sudah terdaftar',
+                'email.email'=>'format email tidak sesuai',
             ]
         );
 
+        $simpan = Developer::updateOrCreate(
+            [
+                'id' => $request->id
+            ],
+            [
+                'nama_perusahaan' => $request->nama_perusahaan,
+                'nama_direktur' => $request->nama_direktur,
+                'no_kta_apersi' => $request->no_kta_apersi,
+                'province_code' => $request->province_code,
+                'alamat' => $request->alamat,
+                'no_hp' => $request->no_hp,
+                'email' => $request->email,
+            ]
+        );
+
+        if ($simpan) {
+            return redirect()->route('konsultan.editRegistrasiDeveloper', ['id'=>$simpan->id] )->with('success','Data berhasil disimpan.'); 
+        }else{
+            return redirect()->back()->with('fail',$e->getErrors());
+        }
+
+
     }
 
+    public function deleteRegistrasiDeveloper(Request $request) {
+
+        // $input = $request->all();
+        // return $input;
+
+        $developer = Developer::find($request->id);
+
+        if ($developer->delete()) {
+            return redirect()->route('konsultan.indexRegistrasiDeveloper', ['active'=>'developer'])->with('success','Data berhasil dihapus.'); 
+        }else{
+            return redirect()->route('konsultan.indexRegistrasiDeveloper', ['active'=>'developer'])->with('fail','Data gagal dihapus.');
+        }
+
+    }
+
+    public function tambahRegistrasiUserDeveloper() {
+
+        $developers = Developer::pluck('nama_perusahaan', 'id');
+        return view('konsultan.tambah-registrasi-user-developer', compact(
+            'developers'
+        ));
+    
+    }
+
+    public function editRegistrasiUserDeveloper(Request $request) {
+
+        $developers = Developer::pluck('nama_perusahaan', 'id');
+        $user = User::find($request->id);
+        return view('konsultan.edit-registrasi-user-developer', compact(
+            'developers',
+            'user'
+        ));
+
+    }
+
+    public function simpanRegistrasiUserDeveloper(Request $request) {
+
+        // $input = $request->all();
+        // return $input;          
+ 
+        $request->validate(
+            [
+                'developer_id'=>'required',
+                'name'=>'required',
+                'username'=>'required|min:6|regex:/^[0-9A-Za-z.\-_]+$/u|unique:users,username,',                
+                'email' => 'required|email|unique:users,email,',
+                'password' => 'required|min:8',
+                'password_confirmation' => 'required|same:password',
+                
+            ], 
+            [
+                'developer_id.required' => 'Developer belum dipilih',
+                'name.required' => 'Nama harus diisi',
+                'username.required'=>'Username harus diisi',
+                'username.min'=>'tidak valid. Username minimal 6 karakter',
+                'username.regex'=>'tidak valid. Username hanya berisi huruf, angka, titik, - ,dan _',
+                'username.unique'=>'sudah terdaftar',
+                'email.required'=>'Email harus diisi',
+                'email.unique'=>'sudah terdaftar',
+                'email.email'=>'format email tidak sesuai',                
+                'password.required'=>'Password harus diisi',
+                'password.min'=>'Password minimal 8 karakter',
+                'password_confirmation.required'=>'Konfirmasi Password harus diisi',
+                'password_confirmation.same'=>'Password dan Konfirmasi Password harus sama',
+            ]
+        );
+
+        DB::beginTransaction();
+
+        try {
+
+            $newUser = User::Create(
+                [
+                    'name' => $request->name,
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role' => 'DEVELOPER',
+                ]
+            );        
+
+            $newUser->developers()->attach($request->developer_id);
+
+            // Commit Transaction
+            DB::commit();
+            // Semua proses benar
+            return redirect()->route('konsultan.editRegistrasiUserDeveloper', ['id'=>$newUser->id] )->with('success','Data user berhasil disimpan.'); 
+            
+        } catch (Exception $e) {       
+            // Rollback Transaction
+            DB::rollback();
+            return redirect()->back()->with('fail',$e->getErrors());
+            // throw $e;
+            // ada yang error   
+        }            
+
+
+    }
+
+    public function updateRegistrasiUserDeveloper(Request $request) {
+
+        // $input = $request->all();
+        // return $input;          
+ 
+        $request->validate(
+            [
+                'developer_id'=>'required',
+                'name'=>'required',
+                'username'=>'required|min:6|regex:/^[0-9A-Za-z.\-_]+$/u|unique:users,username,'.$request->id,                
+                'email' => 'required|email|unique:users,email,'.$request->id,
+                'password' => 'nullable|min:8',
+                'password_confirmation' => 'required_with:password|same:password',
+                
+            ], 
+            [
+                'developer_id.required' => 'Developer belum dipilih',
+                'name.required' => 'Nama harus diisi',
+                'username.required'=>'Username harus diisi',
+                'username.min'=>'tidak valid. Username minimal 6 karakter',
+                'username.regex'=>'tidak valid. Username hanya berisi huruf, angka, titik, - ,dan _',
+                'username.unique'=>'sudah terdaftar',
+                'email.required'=>'Email harus diisi',
+                'email.email'=>'format email tidak sesuai',                
+                'email.unique'=>'sudah terdaftar',                
+                // 'password.required'=>'Password harus diisi',
+                'password.min'=>'Password minimal 8 karakter',
+                'password_confirmation.required_with'=>'Konfirmasi Password harus diisi',
+                'password_confirmation.same'=>'Password dan Konfirmasi Password harus sama',
+            ]
+        );
+
+        // $input = $request->all();
+        // return $input;
+
+        DB::beginTransaction();
+
+        try { 
+
+            $user = User::find($request->id);
+
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            if (!empty($request->password)) {
+                $user->password = Hash::make($request->password);
+            }
+
+            $user->save();
+
+            $user->developers()->sync([$request->developer_id]);
+
+            // Commit Transaction
+            DB::commit();
+            // Semua proses benar
+            return redirect()->route('konsultan.editRegistrasiUserDeveloper', ['id'=>$request->id] )->with('success','Update user berhasil.'); 
+            
+        } catch (Exception $e) {       
+            // Rollback Transaction
+            DB::rollback();
+            return redirect()->back()->with('fail',$e->getErrors());
+            // throw $e;
+            // ada yang error   
+        }            
+
+
+    }    
+
+ 
 }

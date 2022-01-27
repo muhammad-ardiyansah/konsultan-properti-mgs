@@ -8,7 +8,8 @@ return [
     'columns'                       => [
         'alpha'   => [
             'rows'  => ['description', 'email', 'name', 'slug'],
-            'class' => 'fa fa-sort-alpha',
+            // 'class' => 'fa fa-sort-alpha',
+            'class' => 'mdi mdi-sort-alphabetical',
         ],
         'amount'  => [
             'rows'  => ['amount', 'price'],
@@ -16,7 +17,9 @@ return [
         ],
         'numeric' => [
             'rows'  => ['created_at', 'updated_at', 'level', 'id', 'phone_number'],
-            'class' => 'fa fa-sort-numeric',
+            // 'class' => 'fa fa-sort-numeric',
+            'class' => 'mdi mdi-sort-alphabetical',
+
         ],
     ],
 

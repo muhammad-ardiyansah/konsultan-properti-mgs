@@ -211,6 +211,25 @@
                                         </li>
                                         --}}
 
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pengaturan" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="uil-chart me-1"></i>Pengaturan <div class="arrow-down"></div>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="topnav-pengaturan">
+                                                <a href="index.html" class="dropdown-item">Data Konsultan</a>
+                                                <div class="dropdown">
+                                                    <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-template-simak" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Manajemen User <div class="arrow-down"></div>
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="topnav-template-simak">
+                                                        <a href="{{ route('konsultan.masterTemplateKomponenPemeriksaan') }}" class="dropdown-item">Manajemen User Konsultan</a>
+                                                        <a href="{{ route('konsultan.templateStrukturalFondasi') }}" class="dropdown-item">Manajemen User DPD</a>
+                                                        <a href="{{ route('konsultan.templateKomponenPemeriksaan') }}" class="dropdown-item">Manajemen User Perbankan</a>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </nav>

@@ -60,6 +60,13 @@
                         
                         @php
 
+                            $oldNamaPerusahaanValue = old('nama_perusahaan');
+                            $msgErrNamaPerusahaan = "";
+                            if ($errors->has('nama_perusahaan') && !empty($oldNamaPerusahaanValue)) {
+                                $msgErrNamaPerusahaan = "\"".$oldNamaPerusahaanValue."\"";
+                                $oldNamaPerusahaanValue = "";
+                            }
+
                             $oldNoHpValue = old('no_hp');
                             $msgErrNoHp = "";
                             if ($errors->has('no_hp') && !empty($oldNoHpValue)) {
@@ -88,10 +95,10 @@
                             <div class="row mb-3">
                                 <label for="nama_perusahaan" class="col-3 col-form-label">Nama Perusahaan</label>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan" placeholder=""  @error('nama_perusahaan') required @enderror value="{{ old('nama_perusahaan') }}">
+                                    <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan" placeholder=""  @error('nama_perusahaan') required @enderror value="{{ $oldNamaPerusahaanValue }}">
                                     @error('nama_perusahaan')
                                         <div class="invalid-feedback">
-                                            {{ $message }}
+                                            {{ $msgErrNamaPerusahaan.' '.$message }}
                                         </div>
                                     @enderror
                                 </div>

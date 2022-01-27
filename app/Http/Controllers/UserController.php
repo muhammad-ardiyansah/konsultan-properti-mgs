@@ -41,13 +41,13 @@ class UserController extends Controller
 
         $request->validate(
             [
-                'nama_perusahaan' => 'required',
+                'nama_perusahaan' => 'required|unique:developers,nama_perusahaan',
                 'nama_direktur'=>'required',
                 'no_kta_apersi'=> 'required',
                 // 'province_code'=>'required',      
                 'alamat'=>'required',        
                 'no_hp'=>'required|integer',
-                'email' => 'required|email|unique:users',
+                'email' => 'required|email|unique:users|unique:developers',
                 // 'username'=>'required|unique:users|min:6|alpha_dash',
                 'username'=>'required|unique:users|min:6|regex:/^[0-9A-Za-z.\-_]+$/u',
                 'password' => 'required|min:8',
@@ -56,6 +56,7 @@ class UserController extends Controller
             ], 
             [
                 'nama_perusahaan.required' => 'Nama perusahaan harus diisi',
+                'nama_perusahaan.unique'=>'sudah terdaftar',
                 'nama_direktur.required' => 'Nama Direktur harus diisi',
                 'no_kta_apersi.required' => 'No. KTA Apersi harus diisi',
                 // 'province_code.required' => 'Asal DPD Apersi belum dipilih',
@@ -97,6 +98,7 @@ class UserController extends Controller
                 'province_code' => $request->province_code,
                 'alamat' => $request->alamat,
                 'no_hp' => '+62'.$request->no_hp,
+                'email' => $request->email,
             ]); 
 
             $newUser->developers()->attach($newDeveloper->id);

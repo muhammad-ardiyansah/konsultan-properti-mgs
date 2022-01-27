@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
+
 
 class Developer extends Model
 {
     use HasFactory;
+    use Sortable;
+    public $sortable = ['nama_perusahaan','created_at'];
+
 
     protected $fillable = [
         'nama_perusahaan',
@@ -16,7 +21,7 @@ class Developer extends Model
         'province_code',
         'alamat',
         'no_hp',
-        'user_id'
+        'email'
     ];
 
     public function users() 

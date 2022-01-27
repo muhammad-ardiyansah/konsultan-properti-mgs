@@ -12,10 +12,10 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Registrasi Developer</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('konsultan.indexRegistrasiDeveloper', ['active' => 'developer']) }}">List Developer</a></li>
-                        <li class="breadcrumb-item active">Tambah</li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Tambah </h4>
+                <h4 class="page-title">Edit </h4>
             </div>
         </div>
     </div>     
@@ -26,7 +26,7 @@
 
             <div class="card ribbon-box">
                 <div class="card-body">
-                    <div class="ribbon ribbon-info float-start"><i class="mdi mdi-access-point me-1"></i> Tambah Registrasi Developer</div>
+                    <div class="ribbon ribbon-info float-start"><i class="mdi mdi-access-point me-1"></i> Edit Registrasi Developer</div>
                     <h5 class="text-info float-end mt-0"></h5>
                     <div class="ribbon-content">
 
@@ -50,49 +50,49 @@
                         
                         @php
 
-                            $oldNamaPerusahaanValue = old('nama_perusahaan');
+                            $oldNamaPerusahaanValue = old('nama_perusahaan', $developer->nama_perusahaan);
                             $msgErrNamaPerusahaan = "";
                             if ($errors->has('nama_perusahaan') && !empty($oldNamaPerusahaanValue)) {
                                 $msgErrNamaPerusahaan = "\"".$oldNamaPerusahaanValue."\"";
                                 $oldNamaPerusahaanValue = "";
                             }
 
-                            $oldNamaDirekturValue = old('nama_direktur');
+                            $oldNamaDirekturValue = old('nama_direktur', $developer->nama_direktur);
                             $msgErrNamaDirektur = "";
                             if ($errors->has('nama_direktur') && !empty($oldNamaDirekturValue)) {
                                 $msgErrNamaDirektur = "\"".$oldNamaDirekturValue."\"";
                                 $oldNamaDirekturValue = "";
                             }
 
-                            $oldNoKtaApersiValue = old('no_kta_apersi');
+                            $oldNoKtaApersiValue = old('no_kta_apersi', $developer->no_kta_apersi);
                             $msgErrNoKtaApersi = "";
                             if ($errors->has('no_kta_apersi') && !empty($oldNoKtaApersiValue)) {
                                 $msgErrNoKtaApersi = "\"".$oldNoKtaApersiValue."\"";
                                 $oldNoKtaApersiValue = "";
                             } 
 
-                            $oldProvinceCodeValue = old('province_code');
+                            $oldProvinceCodeValue = old('province_code', $developer->province_code);
                             $msgErrProvinceCode = "";
                             if ($errors->has('province_code') && !empty($oldProvinceCodeValue)) {
                                 $msgErrProvinceCode = "\"".$oldProvinceCodeValue."\"";
                                 $oldProvinceCodeValue = "";
                             }                            
 
-                            $oldAlamatValue = old('alamat');
+                            $oldAlamatValue = old('alamat', $developer->alamat);
                             $msgErrAlamat = "";
                             if ($errors->has('alamat') && !empty($oldAlamatValue)) {
                                 $msgErrAlamat = "\"".$oldAlamatValue."\"";
                                 $oldAlamatValue = "";
                             } 
 
-                            $oldNoHpValue = old('no_hp');
+                            $oldNoHpValue = old('no_hp', $developer->no_hp);
                             $msgErrNoHp = "";
                             if ($errors->has('no_hp') && !empty($oldNoHpValue)) {
                                 $msgErrNoHp = "\"".$oldNoHpValue."\"";
                                 $oldNoHpValue = "";
                             }
 
-                            $oldEmailValue = old('email');
+                            $oldEmailValue = old('email', $developer->email);
                             $msgErrEmail = "";
                             if ($errors->has('email') && !empty($oldEmailValue)) {
                                 $msgErrEmail = "\"".$oldEmailValue."\"";
@@ -189,7 +189,8 @@
                             </div>
     
                             <div class="row mt-3 mb-3">
-                                <div class="col-12 text-end">                        
+                                <div class="col-12 text-end">   
+                                    <input name="id" type="hidden" value="{{ $developer->id; }}">                                                                           
                                     <button type="Submit" class="btn btn-info">Simpan</button>
                                     <a href="{{ route('konsultan.indexRegistrasiDeveloper', ['active' => 'developer' ]) }}" class="btn btn-warning btn-md">Kembali</a></h4>
                                 </div>
